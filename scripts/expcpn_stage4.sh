@@ -53,7 +53,7 @@ JDATA=$DATA
 # 
 # 
 #
-# Check /dcom/us007003/PDY/wgrbbul/qpe/QPE_processing_log (and if hr0=00, 
+# Check $DCOM/PDY/wgrbbul/qpe/QPE_processing_log (and if hr0=00, 
 # also check the QPE_processing_log from $day0m1), compare to 
 # /com/pcpanl/prod/pcpanl.$daym1h/qpe_log.prevhr, to come up with
 # to-do lists for hourly and 6-hourly mosaics, including 1/3/5/7-day reruns.

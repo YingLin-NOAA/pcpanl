@@ -1,8 +1,9 @@
 #!/bin/sh
 
 #############################################################################
-# Produce 4km Stage 2/Stage 4 precip analyses over the CONUS
+# Produce 4km Stage 2/Stage 4 precip analyses
 #############################################################################
+echo Actual output starts here
 date
 export PS4=' $SECONDS + '
 echo cyc is ${cyc:?}                 # ensure cyc defined
@@ -101,11 +102,14 @@ export COMINgaugeqc=${COMINgaugeqc:-$(compath.py hourly/prod/gaugeqc)}
 export COMOUT=${COMOUT:-$COMROOT/${NET}/${envir}}
 # In dev, COMURMA is specified in the ECF file
 export COMURMA=${COMURMA:-${COMROOT}/urma/${envir}}/pcpurma
-export DCOM=${DCOM:-$DCOMROOT/us007003}
-export MRMSDIR=$DCOM/ldmdata/obs/upperair/mrms/conus/GaugeCorr_QPE
 
-# For dumpjb, when DCOM points to places other than /dcom/007003: 
-export TANK=$DCOM
+# Starting 14 May 2019 on Dell: DCOMROOT=/gpfs/dell1/nco/ops/dcom
+export MRMSDIR=$DCOMROOT/prod/ldmdata/obs/upperair/mrms/conus/GaugeCorr_QPE
+
+# for RFCQPE:
+export DCOM=$DCOMROOT/prod
+# For dumpjb:
+export TANK=$DCOMROOT/prod
 
 postmsg $jlogfile "Produce 4km stage2/4 precip analyses"
 
@@ -151,7 +155,13 @@ if [ $mode = MULTI ]; then   # normal run, ST2 erly/mid/late + ST4/URMA
   chmod 775 $DATA/poescript
   export MP_PGMMODEL=mpmd
   export MP_CMDFILE=$DATA/poescript
-  mpirun.lsf
+
+  echo 
+  echo Here is the poescript for making ST2 erly/mid/late and ST4 runs: 
+  cat poescript
+  echo 
+
+  mpirun -l cfp ${MP_CMDFILE}
   export err=$?; err_chk
 elif [ $mode = ST4 ]; then   # ST4/URMA only
   $SCRIPTpcpanl/expcpn_stage4.sh

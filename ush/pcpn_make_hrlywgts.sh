@@ -15,7 +15,7 @@ do
   v1hr=${v1date:8:2}
   mrms=GaugeCorr_QPE_01H_00.00_${v1day}-${v1hr}0000.grib2
   # Check to see of the MRMS file exists in the working directory already from
-  # an earlier weights calculation.  If not, attempt to copy over from /dcom
+  # an earlier weights calculation.  If not, attempt to copy over from dcom
   if [ ! -s $mrms ] 
   then 
     cp $MRMSDIR/$mrms.gz .

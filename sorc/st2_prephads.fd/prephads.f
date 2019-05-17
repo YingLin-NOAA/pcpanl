@@ -19,7 +19,8 @@
 ! 2008-03-11  Use gauge QC output current.evalH to screen out bad gauges
 ! 2008-09-09  Dennis cleaned up/updated the code
 ! 2012-12-18  Y. Lin updated for ifort
-! 2015-10-26, Gross error check: set limit to 5"/hr instead of 1"/hr.  
+! 2015-10-26  Gross error check: set limit to 5"/hr instead of 1"/hr.  
+! 2019-04-01  Removed 'RAWRPT' - no longer needed (see Jeff Ator email today)
 !
 ! USAGE:
 !   INPUT FILES:
@@ -32,8 +33,8 @@
 !     UNIT 06  - STANDARD OUTPUT PRINT
 !     UNIT 51  - BINARY FILE CONTAINING PRECIP DATA for each radar site
 !                fname: gage.${rid}${yyyymmddhh}Z
-!     UNIT 52  - ASCII LISTING OF HOURLY PRECIP REPORTS
-!     UNIT 53  - ASCII LISTING OF HOURLY PRECIP REPORTS
+!     UNIT 52  - ASCII LISTING OF HRLY REPORTS rejected due to QC, gross err chk
+!     UNIT 53  - ASCII LISTING OF HOURLY PRECIP REPORTS that are presumed 'good'
 !
 !   SUBPROGRAMS CALLED:
 !     LIBRARY:
@@ -89,15 +90,12 @@
         CHARACTER sti*5,radid*3,date*10
         CHARACTER stid(99999)*8,stidbad*8,gid(99999)*8
 
-        character * 8 rawrpt(32),blank,ctemp,stblst(5000)
+        character * 8 stblst(5000)
         character * 8 chrid,subset
 
-        equivalence(xtemp,ctemp)
         equivalence(xid,chrid)
-        data blank/'        '/
         data bmiss/10e10/
 
-        data rawrpt/32 * '  99999'/
         data mnth/31,28,31,30,31,30,31,31,30,31,30,31/
 
       real*8 timef
@@ -176,22 +174,6 @@
 
 	if(jret.eq.-1)go to 888
 
-!  extract the raw report for this message
-
-        call ufbint(lunin,a7,1,255,nr7,'RRSTG')
-!       print *, ' raw report: nwords= ',nr7
-        nn = 1
-         do while ( nn .le. nr7 )
-            xtemp = a7(nn)
-            if ( ctemp .ne. blank ) then
-                rawrpt(nn) = ctemp
-                nn = nn + 1
-            else
-                nn = nr7 + 1
-            end if
-            if(nn.gt.32) exit
-          end do
-
 !  get stn id, date and temps    
 
         a1=bmiss
@@ -231,20 +213,6 @@
         xid  = a1(1) 
         clat = a1(2)
         clon = a1(3)
-
-!   print the raw report
-
-        if ( nr7 .gt. 0 ) then
-!cccc      write(53,2220) irec,(rawrpt(ll),ll=1,nr7)
-!2220      format(i5,1x,9a8,31(/,12x,8a8) )
- 2220      format(i5,1x,9a8) ! nr7=9 (yl 2000/11/9)
-        end if
-
-!  re-initialize the raw report array
-
-        do 2218 k1 = 1 , 32
-           rawrpt(k1) = '  999999' 
- 2218   continue
 
 !  output precip data -- total precipitation past  1 hour
 

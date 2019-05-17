@@ -1,7 +1,7 @@
 #!/bin/ksh 
 #
 # This script checks the current 
-#   /dcom/us007003/yyyymmdd/wgrbbul/qpe/QPE_processing_log
+#   $DCOM/yyyymmdd/wgrbbul/qpe/QPE_processing_log
 # compares against a saved version from the previous hour, and make a list
 # of hourly/6-hourly periods that have new input from at least one RFC.  
 # Future RFCs (the ones with valid yyyymmddhh that's later than the current
@@ -12,13 +12,13 @@
 #   datem1h/daymh1: an hour ago
 # Steps:
 #  1. Copy over /com/pcpanl/prod/pcpanl.$daym1h/qpe_log.prevhr
-#     and the current /dcom/us007003/$PDY/wgrbbul/qpe/QPE_processing_log
-#     (and /dcom/us007003/$daym1h/wgrbbul/qpe/QPE_processing_log if current
+#     and the current $DCOM/$PDY/wgrbbul/qpe/QPE_processing_log
+#     (and $DCOM/$daym1h/wgrbbul/qpe/QPE_processing_log if current
 #     hour is 00Z (run at 00:33Z)
 #     to the work directory
 #  2. Save the wrkdir copy of 
-#     /dcom/us007003/$PDY/wgrbbul/qpe/QPE_processing_log to 
-#     /com/pcpanl/prod/pcpanl.$PDY/qpe_log.prevhr
+#     $DCOM/$PDY/wgrbbul/qpe/QPE_processing_log to 
+#        pcpanl/prod/pcpanl.$PDY/qpe_log.prevhr
 #     (this should be the wrkdir copy, in case additional QPEs came in in the
 #     short time gap between steps 1 and 2.  
 #  3. Compare QPE_processing_log file (files, if 00Z) against the previous

@@ -4,7 +4,7 @@
 #   AK: has 6h and 24h QPEs. Use them directly, after grid shifting.
 #   PR: has 1h and 6h QPEs.  Use hourlies to make 1h/6h/24h ST4, after grid 
 #       shifting.  For 6h ST4/URMA, if an hourly is missing, use
-#       the QPE.105.yyyymmddhh.06h received at /dcom.  24h st4_pr is from 
+#       the QPE.105.yyyymmddhh.06h received at $DCOM.  24h st4_pr is from 
 #       hourlies only.
 #
 # For both AK and PR: map 6-hourlies to URMA domains.  

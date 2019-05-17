@@ -5,7 +5,7 @@ v6date=$1
 rid=$2
 
 v6day=${v6date:0:8}
-qpedir=$DCOMROOT/us007003/$v6day/wgrbbul/qpe
+qpedir=$DCOM/$v6day/wgrbbul/qpe
 
 v1datem5=`$NDATE -5 $v6date`
 v1datem4=`$NDATE -4 $v6date`

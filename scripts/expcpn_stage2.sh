@@ -122,7 +122,7 @@ if [ $run = erly ]; then
      echo "WARNING: $COMINhry_mos.$day0/sfctbl.${hr0} is not available!"
    fi
 else
-   ksh $USHobsproc_dump/dumpjb $date0 1 000 011 >> $DATA/$pgmout 2>&1
+   dumpjb $date0 1 000 011 >> $DATA/$pgmout 2>&1
    if [ $? -eq 0 ]; then
      GAUGEDAT=YES
      cp $DATA/000.ibm $ST2_DAT

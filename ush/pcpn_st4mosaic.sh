@@ -76,7 +76,7 @@ if [ $ac = 01h ]; then
 
       # Perform the time-disaggregation only if both the weights and
       # the QPE6h files are available.  
-      QPE6h=$DCOMROOT/us007003/$v6day/wgrbbul/qpe/QPE.$rid.$v6date.06h
+      QPE6h=$DCOM/$v6day/wgrbbul/qpe/QPE.$rid.$v6date.06h
 
       if [ -s $weights -a -s $QPE6h ]; then
         $USHpcpanl/pcpn_st4_qpe6h_to_1h.sh $v6date $rid
@@ -234,6 +234,7 @@ export pgm=st4_mosaic
 . prep_step
 startmsg
 
+rm -f fort.*
 ln -sf stage3_mask.grb                  fort.11
 ln -sf st4.$date.$ac                    fort.51
 ln -sf $st3dir/QPE.150.$date.$ac        fort.150
@@ -253,6 +254,14 @@ else
   ln -sf $st3dir/QPE.153.$date.$ac      fort.153
   ln -sf $st3dir/QPE.159.$date.$ac      fort.159
 fi
+# for diagnosis:
+if [ $RUN_ENVIR = dev ]; then
+  mkdir QPE.$date.$ac.dir
+  cp -p $st3dir/QPE.*.$date.$ac QPE.$date.$ac.dir/.
+  ls -l fort.*
+fi
+#
+
 $EXECpcpanl/st4_mosaic 
 export err=$?;err_chk
 echo '     err=' $? 

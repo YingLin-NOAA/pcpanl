@@ -4,7 +4,7 @@ set -x
 # This script creates a summary of transmission times for all hourly/6-hourly
 # QPEs that have accumulation ending hours that's between [00Z-23Z] $day.  
 # This is done by checks all available 
-#  /dcom/us007003/yyyymmdd/wgrbbul/qpe/QPE_processing_log
+#  $DCOM/yyyymmdd/wgrbbul/qpe/QPE_processing_log
 # files, 
 #
 # This script is called by scripts/expcpanl_stage4.sh.ecf
@@ -86,7 +86,7 @@ do
           grep QPE.$rid.$date0.$acc $dcomlog | cut -c 6-16 >> log.$rid.$date0.$acc
         done    
       fi  
-    done # loop through all logs in $DCOM/us007003 that might have contributed to this hour/6h
+    done # loop through all logs in $DCOM that might have contributed to this hour/6h
     echo '  ' >> st3log.$day0
 
 #   header (2014030522.01h) contains 14 characters.  Each QPE file's incoming

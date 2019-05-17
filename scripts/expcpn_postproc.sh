@@ -143,7 +143,12 @@ if [ -s $DATA/emailmsg.txt ]; then
   fi
 fi
 
-mpirun.lsf cfp poescript
+echo 
+echo Here is the poescript for making plots:
+cat poescript
+echo 
+
+mpirun -l cfp poescript
 export err=$?; err_chk
 
 if [ -s $DATA/emailmsg.txt ]; then

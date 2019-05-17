@@ -23,7 +23,9 @@ mkdir $BASE/logs
 export logs_dir=$BASE/logs
 
 set -x
-. /usrx/local/Modules/default/init/sh
+#Phase2 . /usrx/local/Modules/default/init/sh
+. /usrx/local/prod/lmod/lmod/init/ksh  #dell
+
 module purge
 module use ../modulefiles
 module load PCPANL

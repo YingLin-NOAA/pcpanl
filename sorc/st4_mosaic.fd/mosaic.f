@@ -62,12 +62,9 @@
               , flag
       logical*4 fexist
       real p0(nx0,ny0), p1(nx1,ny1), ptmp(nx1*ny1)
-      character infile(150:162)*8,outfile*80,maskfile*80, ac*3
+      character infile(150:162)*8,outfile*80,maskfile*80
 !
       CALL W3TAGB('MOSAIC ',2001,0151,0060,'NP22   ')
-!
-! Import the accumulation time (ac=01h/06h)
-      call getenv("ac",ac)
 !
 ! Read in the 'bytemap' that maps out the RFC territories:
       jpds = -1
@@ -181,7 +178,7 @@
  50       continue
  60     continue
 !
-        call baclose(iunit,ibaclret)
+        call baclose(id,ibaclret)
  100  continue
 !
 ! For points not covered by 'home RFC' but covered by other RFC's, take
