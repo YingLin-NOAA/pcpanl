@@ -1,0 +1,6 @@
+      COMMON/CNMU/GMIN,VMIN,B1,B2,B3,B4,SC,KMAX,errmax
+      common/mltparam/rainminml,distminml,crscori,crscorc,                    &
+         cor0pig,cor0ig,rangeig,cor0pic,cor0ic,rangeic,                       &
+         cor0pcg,cor0cg,rangecg,cor0pcc,cor0cc,rangecc,                       &
+         ityml,nbrsml,scali_def,scale_def,scali_max,scale_max,                &
+         threshmin

@@ -1,0 +1,198 @@
+# 4.1.0
+extern /hourly/mdl/jmdl_00
+extern /hourly/mdl/jmdl_01
+extern /hourly/mdl/jmdl_02
+extern /hourly/mdl/jmdl_03
+extern /hourly/mdl/jmdl_04
+extern /hourly/mdl/jmdl_05
+extern /hourly/mdl/jmdl_06
+extern /hourly/mdl/jmdl_07
+extern /hourly/mdl/jmdl_08
+extern /hourly/mdl/jmdl_09
+extern /hourly/mdl/jmdl_10
+extern /hourly/mdl/jmdl_11
+extern /hourly/mdl/jmdl_12
+extern /hourly/mdl/jmdl_13
+extern /hourly/mdl/jmdl_14
+extern /hourly/mdl/jmdl_15
+extern /hourly/mdl/jmdl_16
+extern /hourly/mdl/jmdl_17
+extern /hourly/mdl/jmdl_18
+extern /hourly/mdl/jmdl_19
+extern /hourly/mdl/jmdl_20
+extern /hourly/mdl/jmdl_21
+extern /hourly/mdl/jmdl_22
+extern /hourly/mdl/jmdl_23
+suite prod00
+  family pcpanl
+    edit PROJ 'RTMA'
+    edit QUEUE 'prod2'
+    edit ECF_FILES '/ecf/ecfnets/scripts/pcpanl'
+    family 00z
+      edit CYC '00'
+      task pcpn_anal
+        trigger /hourly/mdl/jmdl_00 == complete
+        time 00:33
+    endfamily
+    family 01z
+      edit CYC '01'
+      task pcpn_anal
+        trigger /hourly/mdl/jmdl_01 == complete
+        time 01:33
+    endfamily
+    family 02z
+      edit CYC '02'
+      task pcpn_anal
+        trigger /hourly/mdl/jmdl_02 == complete
+        time 02:33
+    endfamily
+    family 03z
+      edit CYC '03'
+      task pcpn_anal
+        trigger /hourly/mdl/jmdl_03 == complete
+        time 03:33
+    endfamily
+    family 04z
+      edit CYC '04'
+      task pcpn_anal
+        trigger /hourly/mdl/jmdl_04 == complete
+        time 04:33
+    endfamily
+    family 05z
+      edit CYC '05'
+      task pcpn_anal
+        trigger /hourly/mdl/jmdl_05 == complete
+        time 05:33
+    endfamily
+  endfamily
+endsuite
+suite prod06
+  family pcpanl
+    edit PROJ 'RTMA'
+    edit QUEUE 'prod2'
+    edit ECF_FILES '/ecf/ecfnets/scripts/pcpanl'
+    family 06z
+      edit CYC '06'
+      task pcpn_anal
+        trigger /hourly/mdl/jmdl_06 == complete
+        time 06:33
+    endfamily
+    family 07z
+      edit CYC '07'
+      task pcpn_anal
+        trigger /hourly/mdl/jmdl_07 == complete
+        time 07:33
+    endfamily
+    family 08z
+      edit CYC '08'
+      task pcpn_anal
+        trigger /hourly/mdl/jmdl_08 == complete
+        time 08:33
+    endfamily
+    family 09z
+      edit CYC '09'
+      task pcpn_anal
+        trigger /hourly/mdl/jmdl_09 == complete
+        time 09:33
+    endfamily
+    family 10z
+      edit CYC '10'
+      task pcpn_anal
+        trigger /hourly/mdl/jmdl_10 == complete
+        time 10:33
+    endfamily
+    family 11z
+      edit CYC '11'
+      task pcpn_anal
+        trigger /hourly/mdl/jmdl_11 == complete
+        time 11:33
+    endfamily
+  endfamily
+endsuite
+suite prod12
+  family pcpanl
+    edit PROJ 'RTMA'
+    edit QUEUE 'prod2'
+    edit ECF_FILES '/ecf/ecfnets/scripts/pcpanl'
+    family 12z
+      edit CYC '12'
+      task pcpn_anal
+        trigger /hourly/mdl/jmdl_12 == complete
+        time 12:33
+    endfamily
+    family 13z
+      edit CYC '13'
+      task pcpn_anal
+        trigger /hourly/mdl/jmdl_13 == complete
+        time 13:33
+    endfamily
+    family 14z
+      edit CYC '14'
+      task pcpn_anal
+        trigger /hourly/mdl/jmdl_14 == complete
+        time 14:33
+    endfamily
+    family 15z
+      edit CYC '15'
+      task pcpn_anal
+        trigger /hourly/mdl/jmdl_15 == complete
+        time 15:33
+    endfamily
+    family 16z
+      edit CYC '16'
+      task pcpn_anal
+        trigger /hourly/mdl/jmdl_16 == complete
+        time 16:33
+    endfamily
+    family 17z
+      edit CYC '17'
+      task pcpn_anal
+        trigger /hourly/mdl/jmdl_17 == complete
+        time 17:33
+    endfamily
+  endfamily
+endsuite
+suite prod18
+  family pcpanl
+    edit PROJ 'RTMA'
+    edit QUEUE 'prod2'
+    edit ECF_FILES '/ecf/ecfnets/scripts/pcpanl'
+    family 18z
+      edit CYC '18'
+      task pcpn_anal
+        trigger /hourly/mdl/jmdl_18 == complete
+        time 18:33
+    endfamily
+    family 19z
+      edit CYC '19'
+      task pcpn_anal
+        trigger /hourly/mdl/jmdl_19 == complete
+        time 19:33
+    endfamily
+    family 20z
+      edit CYC '20'
+      task pcpn_anal
+        trigger /hourly/mdl/jmdl_20 == complete
+        time 20:33
+    endfamily
+    family 21z
+      edit CYC '21'
+      task pcpn_anal
+        trigger /hourly/mdl/jmdl_21 == complete
+        time 21:33
+    endfamily
+    family 22z
+      edit CYC '22'
+      task pcpn_anal
+        trigger /hourly/mdl/jmdl_22 == complete
+        time 22:33
+    endfamily
+    family 23z
+      edit CYC '23'
+      task pcpn_anal
+        trigger /hourly/mdl/jmdl_23 == complete
+        time 23:33
+    endfamily
+  endfamily
+endsuite
+

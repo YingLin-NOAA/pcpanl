@@ -1,0 +1,2 @@
+      CHARACTER*60 FILFLG
+      COMMON/FLAGS/LUFLG,IFAPR,ifvar,ifltd,ifltyp,FILFLG

@@ -1,0 +1,46 @@
+#BSUB -J %E%pcpn_anal_%CYC%
+#BSUB -o /com2/output/%ENVIR%/today/pcpn_anal_%CYC%.o%J
+#BSUB -L /bin/sh
+#BSUB -q %QUEUE%_shared
+#BSUB -cwd /tmp
+#BSUB -W 00:25
+#BSUB -P %PROJ%-%PROJENVIR%
+#BSUB -R affinity[core]
+#BSUB -R rusage[mem=2048]
+#BSUB -n 4
+#BSUB -R span[ptile=4]
+#BSUB -a poe
+
+%include <head.h>
+%include <envir-p2.h>
+
+export MP_EUILIB=us
+export MP_EUIDEVICE=sn_all
+export MP_MPILIB=mpich2
+export MP_STDOUTMODE=unordered
+export MP_LABELIO=YES
+export MP_INFOLEVEL=3
+export MP_CSS_INTERRUPT=yes
+
+# EXPORT list here
+export cyc=%CYC%
+export MAILTO="ncep.list.sos@noaa.gov"
+export MAILCC="ncep.list.spa-helpdesk@noaa.gov,ying.lin@noaa.gov"
+
+model=pcpanl
+%include <model_ver.h>
+
+module load grib_util/${grib_util_ver}
+module switch ics/${ics_ver}
+module load gempak cfp
+
+$HOMEpcpanl/jobs/JPCPN_ANAL
+
+%include <tail.h>
+%manual
+######################################################################
+PURPOSE:  To create the hourly Stage II/Stage IV hourly/6-hourly/24h
+          precipitation analyses, and hourly precipitation RTMA.
+######################################################################
+%end
+

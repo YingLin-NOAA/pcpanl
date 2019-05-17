@@ -1,0 +1,194 @@
+#!/bin/sh
+
+#############################################################################
+# Produce 4km Stage 2/Stage 4 precip analyses over the CONUS
+#############################################################################
+date
+export PS4=' $SECONDS + '
+echo cyc is ${cyc:?}                 # ensure cyc defined
+echo envir is ${envir:?}             # ensure envir defined
+echo pcpanl_ver is ${pcpanl_ver:?}   # ensure pcpanl_ver defined
+set -x
+
+# if machine=ccs, some things in sub-scripts are handled differently:
+export machine=wcoss
+
+###############################################################
+# Specify NET, RUN, and cycle
+###############################################################
+export NET=pcpanl
+export RUN=pcpanl
+export cycle=t${cyc}z
+
+####################################
+# File To Log Msgs
+####################################
+if [ "${RUN_ENVIR,,}" != "nco" ]; then
+  # DEV  wrkdir set in ecf script for 'userdev'.
+  export jlogfile=$DATAROOT/jlogfile
+  export SENDDBN=NO
+  export SENDDBN_NTC=NO
+  export jobid="${outid}.o$$"
+  export SENDCOM=YES
+  export SENDDBN=NO
+fi
+
+export DATA=${DATA:-${DATAROOT:?}/${jobid:?}}
+export DATAST4=$DATA/st4
+mkdir -p $DATAST4
+cd $DATA
+
+####################################
+# Determine Job Output Name on System
+####################################
+export pgmout="OUTPUT.$$"
+
+####################################
+# SENDCOM  - Copy Files From TMPDIR to $com
+# SENDDBN  - Send files to OSO
+####################################
+export SENDCOM=${SENDCOM:-YES}
+export SENDDBN=${SENDDBN:-YES}
+export SENDDBN_NTC=${SENDDBN_NTC:-YES}
+
+####################################
+# Specify Execution Areas
+####################################
+# For userdev, HOMEpcpanl is set in the dev LSF script. 
+export HOMEpcpanl=${HOMEpcpanl:-${NWROOT:?}/pcpanl.${pcpanl_ver}}
+export FIXpcpanl=$HOMEpcpanl/fix
+export USHpcpanl=$HOMEpcpanl/ush
+export PARMpcpanl=$HOMEpcpanl/parm
+export EXECpcpanl=$HOMEpcpanl/exec
+export SCRIPTpcpanl=$HOMEpcpanl/scripts
+# Two parm files needed for toc2grib2, for pcp RTMA and URMA:
+export utilparm=$HOMEpcpanl/util/parm
+# coltbl.xwp.wbg and wmogrib.tbl: 
+export GEMFIX=${GEMFIX:-$HOMEpcpanl/gempak/fix}
+# dumpjb:
+HOMEobsproc_dump=${HOMEobsproc_dump:-${NWROOTp1:?}/obsproc_dump.${obsproc_dump_ver:?}}
+export USHobsproc_dump=${USHobsproc_dump:-${HOMEobsproc_dump}/ush}
+# Default values for the retro/debug/mode, unless set otherwise by dev calling
+# script:
+export retro=${retro:-N}
+export debug=${debug:-N}
+export mode=${mode:-MULTI}
+
+# SPA added this for Prod v3.0.0, since prod does not use my ECF file: 
+export MYWGRIB2=$HOMEpcpanl/lib/grib2/wgrib2/wgrib2
+
+#########################################
+# Run setpdy and initialize PDY variables
+#########################################
+
+if [ "${RUN_ENVIR,,}" = "nco" ]; then  ### for prod/para/test (all non-dev)
+  setpdy.sh 9 1
+  . PDY
+else                          ### for developer
+  if [ $retro = Y ]; then
+    export PDY=${pdyhh:0:8}
+  fi
+  setpdy.sh 9 1  # Create PDY file for PDYm9, PDYm8, ..., PDYp1
+  . PDY 
+fi
+
+##############################################
+# Define COM directories
+##############################################
+export COMIN=${COMIN:-${COMROOT?:}/${NET}/${envir}}
+export COMINhry_mos=${COMINhry_mos:-$(compath.py mos/prod/hry_mos)}
+export COMINgaugeqc=${COMINgaugeqc:-$(compath.py hourly/prod/gaugeqc)}
+export COMOUT=${COMOUT:-$COMROOT/${NET}/${envir}}
+# In dev, COMURMA is specified in the ECF file
+export COMURMA=${COMURMA:-${COMROOT}/urma/${envir}}/pcpurma
+export DCOM=${DCOM:-$DCOMROOT/us007003}
+export MRMSDIR=$DCOM/ldmdata/obs/upperair/mrms/conus/GaugeCorr_QPE
+
+# For dumpjb, when DCOM points to places other than /dcom/007003: 
+export TANK=$DCOM
+
+postmsg $jlogfile "Produce 4km stage2/4 precip analyses"
+
+mkdir -m 775 -p $COMOUT/$RUN.${PDYm9}
+mkdir -m 775 -p $COMOUT/$RUN.${PDYm8}
+mkdir -m 775 -p $COMOUT/$RUN.${PDYm7}
+mkdir -m 775 -p $COMOUT/$RUN.${PDYm6}
+mkdir -m 775 -p $COMOUT/$RUN.${PDYm5}
+mkdir -m 775 -p $COMOUT/$RUN.${PDYm4}
+mkdir -m 775 -p $COMOUT/$RUN.${PDYm3}
+mkdir -m 775 -p $COMOUT/$RUN.${PDYm2}
+mkdir -m 775 -p $COMOUT/$RUN.${PDYm1}
+mkdir -m 775 -p $COMOUT/$RUN.${PDY}
+
+env
+
+# So that we can get to the actual output quickly:
+echo "Actual output starts here:"
+
+# Run erly/mid/late Stage II/RTMA:
+#
+# Create a script to be poe'd
+#
+#  Note:  The number of scripts to be run MUST match the number
+#  of total_tasks set in the ecf script, or the job will fail.
+
+date
+
+if [ -e $DATA/poescript ]; then
+  rm $DATA/poescript
+fi
+
+#############################################################
+# Execute the script.
+#############################################################
+if [ $mode = MULTI ]; then   # normal run, ST2 erly/mid/late + ST4/URMA
+  runlist="erly mid late"
+  for run in $runlist; do
+    echo "$SCRIPTpcpanl/expcpn_stage2.sh $run" >> $DATA/poescript
+  done
+  echo "$SCRIPTpcpanl/expcpn_stage4.sh" >> $DATA/poescript
+
+  chmod 775 $DATA/poescript
+  export MP_PGMMODEL=mpmd
+  export MP_CMDFILE=$DATA/poescript
+  mpirun.lsf
+  export err=$?; err_chk
+elif [ $mode = ST4 ]; then   # ST4/URMA only
+  $SCRIPTpcpanl/expcpn_stage4.sh
+  export err=$?; err_chk
+else   # a single ST2 run (erly, mid or late)
+  run=$runtype               # runtype specified in ECF script
+  $SCRIPTpcpanl/expcpn_stage2.sh $run
+  export err=$?; err_chk
+fi
+
+#############################################################
+# At the 08Z/14Z/20Z cycles, calculate the four Stage II 6-hourly accumulations
+# (12-18Z, 18-00Z, 00-06Z, 06-12Z) and the 12-12Z accumulation, for the 24h
+# period ending at the 12Z of the current day (at 14Z/20Z cycles) or the
+# previous day (at the 08Z cycle).  We want to run this after the POE'd 
+# script/expcpn_stage2.sh step has completed, to ensure that we are not
+# accessing files that are being processed during the generation of 1h Stage II
+# analysis.
+#############################################################
+if [[ $cyc -eq 14 || $cyc -eq 20 || $cyc -eq 08 ]]
+then
+  export pgm=pcpn_st2acc.sh
+  $USHpcpanl/pcpn_st2acc.sh ${PDY}${cyc}
+  export err=$?; echo "     err=$err"; err_chk
+fi
+
+#############################################################
+# Run post processing job
+#############################################################
+date
+$SCRIPTpcpanl/expcpn_postproc.sh
+export err=$?; err_chk
+
+date
+postmsg $jlogfile "$0 completed normally"
+
+if [ "${KEEPDATA^^}" != YES ]; then
+  rm -rf $DATA
+fi
+

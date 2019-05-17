@@ -1,0 +1,11 @@
+#!/bin/sh
+#
+# compile for intel ifort
+#
+set -x
+prog=$1
+
+LIB="-L/u/Wesley.Ebisuzaki/home/grib2/lib -lwgrib2 -lgfortran -lz -lm"
+MOD="-I/u/Wesley.Ebisuzaki/home/grib2/lib"
+ifort -openmp -o $prog $prog.f90 ${MOD} ${LIB} 
+exit

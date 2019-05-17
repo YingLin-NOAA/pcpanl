@@ -1,0 +1,4 @@
+0     on/off flag for Ap removal test - 0 = no test, 1 = perform test
+0     on/off flag for variance calculations in ml and gg  field (0=off)
+0     on/off flag for time distribution calculations (0=off)
+1     type of StageII processing - 0 = old method, 1 = new method

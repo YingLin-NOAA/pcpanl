@@ -1,0 +1,38 @@
+      SUBROUTINE OUTREM(I,J)
+!
+!   THIS SUBROUTINE CALCULATES THE AVERAGE OF THE 8 BINS SURROUNDING
+!     AN OUTLIER BIN.  THIS AVERAGE IS SUBSTITUTED FOR THE ORIGINAL
+!     RADAR VALUE.
+!   CALLING SUBROUTINE: MNQUAL
+!
+      DIMENSION RADAR(131,131)
+      COMMON/RADCOM/RADAR
+      INCLUDE 'cnqu'
+!
+      RAD=0.0
+      NBIN=0
+     
+      WRITE(6,*) ' OUTREM ',I,J,RADAR(I,J)
+!
+      DO 100 I1=-1,1
+      DO 100 J1=-1,1
+      IF(I1.NE.0.OR.J1.NE.0) THEN
+         M=I+I1
+         N=J+J1
+!
+         IF(M.LE.131.AND.M.GE.1.AND.N.LE.131.AND.N.GE.1) THEN
+            R=RADAR(M,N)
+            IF(R.LT.RMAX) THEN
+               NBIN=NBIN+1
+               RAD=RAD + R
+            END IF
+         END IF
+      END IF
+  100 CONTINUE
+      RD=RADAR(I,J)
+      RADAR(I,J)=RAD/NBIN
+      WRITE(6,1) I,J,RADAR(I,J),RD
+      RETURN
+    1 FORMAT(' ',2X,'OUTLIER REMOVED:  I=',I3,2X,'J=',I3,2X,                  &
+         'NEW VALUE=',F10.2,2X,'OLD VALUE=',F10.2)
+      END

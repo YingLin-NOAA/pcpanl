@@ -1,0 +1,96 @@
+#!/bin/ksh
+set -x
+
+# EXPORT list here
+export envir=userdev
+export RUN_ENVIR=dev 
+# RUN_ENVIR only appears once, in jobs/JPCPN_ANAL:
+#    if [ $RUN_ENVIR != nco ]; then
+export model_ver=v3.1.0
+export pcpanl_ver=$model_ver
+export job=pcpanl
+
+# CALL executable job script here
+
+# This script has two optional arguments:
+#   arg 1: yyyymmddhh 
+#   arg 2: debug (if in debug mode, do not delete the working directory)
+#   arg 3: Single mode - only make erly/mid/late run (one of them, as
+#          specified by argument.  No POE.
+
+# arg #1: pdyhh=yyyymmddhh: in this mode, the 'erly' ST2 analysis would 
+#   be the one hour ending at $pdyhh, 'mid' ST2 would be ${pdyhh}m6, 
+#   and 'late' ST2 would be ${pdyhh}m18.  If this argument is not provided,
+#   then pdyhh is set to the current time, in the jobs script. 
+
+export retro=N
+if [ $# -ge 1 ]; then
+  export retro=Y
+  export pdyhh=$1
+else
+  pdyhh=`date -u +%Y%m%d%H`
+fi
+export cyc=`echo $pdyhh | cut -c 9-10`
+
+# arg #2: optional debug mode - the working directory is not deleted by the 
+# JOBS script
+export debug=N
+if [ $# -ge 2 ]; then
+  arg2=$2
+  if [ $arg2 = debug ]; then
+    export debug=Y
+  fi
+fi
+export KEEPDATA=YES
+# arg #3: run in the non-POE mode, only one run (erly or mid or late) is made.
+# 
+export mode=MULTI
+if [ $# -ge 3 ]; then
+  arg3=$3
+  if [ $arg3 = erly -o $arg3 = mid -o $arg3 = late ]; then
+    export mode=SINGLE
+    export runtype=$arg3
+  elif [ $arg3 = ST4 ]; then
+    export mode=ST4
+  fi
+fi
+
+if [ "$envir" = userdev ]; then 
+  export HOMEpcpanl=/meso/save/$LOGNAME/pcpanl/$model_ver
+  export HOMErtma=/meso/save/$LOGNAME/pcpanl/rtma.v2.7.0
+  export HOMEurma=/meso/save/$LOGNAME/pcpanl/urma.v2.7.0
+  # outid is what prod uses to name the job output file, e.g.
+  # nam_pcpn_anal_2033.o2467312  (outid.$o${pid}
+  # below is my approximation to prod outid:
+  export outid=pcpanl_`date +%H%M`
+  export NWROOT=/nwprod2
+  export NWROOTp1=/nwprod
+# export DATAROOT=/stmpp2/$LOGNAME/pcpanl # 2015/8/21: this disk tends to fill up
+  export DATAROOT=/stmpd3/$LOGNAME/pcpanl
+  export COMROOT=/com               # needed for setpdy,e.g. /com/date/t20z
+  export COMIN=/ptmpp2/$LOGNAME/pcpanl
+  export COMOUT=$COMIN
+  export COMURMA=/ptmpp2/$LOGNAME/urma/pcpurma
+  export NOSCRUBDIR=/meso/noscrub/$LOGNAME/mrms-cmorph.arch
+  export DCOMROOT=/dcom
+# COMINhourly: for METAR files (e.g. /com/hourly/prod/hourly.20170713/sfctbl.14)
+#   Sometimes this is slow being synch'd to devwcoss.  Have a cron job
+#   copy it over from prodwcoss at 32 min past the top of the hour:
+# export COMINhourly=/com/hourly/prod/hourly
+  export COMINhourly=/ptmpp2/Ying.Lin/pcpanl/hourly
+  export COMINgaugeqc=/com/hourly/prod/gaugeqc
+# User-compiled WGRIB2 for processing MRMS data:
+  export MYWGRIB2=$HOMEpcpanl/lib/grib2/wgrib2/wgrib2
+# for dumpjb: 
+  export obsproc_dump_ver=v3.2.0   
+  export obsproc_shared_bufr_dumplist_ver=v1.1.0
+  export TMPDIR=$DATAROOT
+# end of set up for DUMPJB
+# 
+# coltbl.xwp.wbg and wmogrib.tbl are not in Tide's /nwprod/gempak/fix yet.
+  export GEMFIX=$HOMEpcpanl/gempak/fix
+  $HOMEpcpanl/jobs/JPCPN_ANL
+  bsub < $HOMEpcpanl/util.dev/send2rzdm.ksh > /ptmpp2/Ying.Lin/cron.out/bsub.pcpanl2rzdm 2>&1
+else
+  /nw${envir}/jobs/JPCPN_ANL
+fi
