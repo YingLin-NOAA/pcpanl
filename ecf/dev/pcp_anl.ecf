@@ -70,7 +70,7 @@ if [ "$envir" = userdev ]; then
 # 2019/05/06: MDL dell transition,
 #   /com/hourly/prod/hourly.29190424/sfctbl.12
 # moved to
-#   /gpfs/dell1/nco/ops/com/mos/para/hry_mos.20190424/sfctbl.12
+#   /gpfs/dell1/nco/ops/com/mos/prod/hry_mos.20190424/sfctbl.12
 # Replace COMINhourly with COMINhry_mos
   export COMINhry_mos=/gpfs/dell2/ptmp/Ying.Lin/pcpanl/hry_mos
   export COMINgaugeqc=`compath.py hourly/prod`/gaugeqc

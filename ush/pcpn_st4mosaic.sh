@@ -255,11 +255,11 @@ else
   ln -sf $st3dir/QPE.159.$date.$ac      fort.159
 fi
 # for diagnosis:
-if [ $RUN_ENVIR = dev ]; then
-  mkdir QPE.$date.$ac.dir
-  cp -p $st3dir/QPE.*.$date.$ac QPE.$date.$ac.dir/.
-  ls -l fort.*
-fi
+# if [ $RUN_ENVIR = dev ]; then
+#   mkdir QPE.$date.$ac.dir
+#  cp -p $st3dir/QPE.*.$date.$ac QPE.$date.$ac.dir/.
+#   ls -l fort.*
+# fi
 #
 
 $EXECpcpanl/st4_mosaic 

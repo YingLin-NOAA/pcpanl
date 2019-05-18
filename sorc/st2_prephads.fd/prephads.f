@@ -21,6 +21,10 @@
 ! 2012-12-18  Y. Lin updated for ifort
 ! 2015-10-26  Gross error check: set limit to 5"/hr instead of 1"/hr.  
 ! 2019-04-01  Removed 'RAWRPT' - no longer needed (see Jeff Ator email today)
+! 2019-05-17  There are many more "missing" points (designated with
+!             values=100000000000).  Do not write them out to hads_prob - 
+!             that file should just contain gauges rejected due to either 
+!             gross error check or listed in the gaugeqc/current.evalH.  
 !
 ! USAGE:
 !   INPUT FILES:
@@ -215,9 +219,14 @@
         clon = a1(3)
 
 !  output precip data -- total precipitation past  1 hour
+!  If the value coming out of dumpjb is 'missing' (=100000000000), skip the 
+!  set it to 9999. (designated as 'missing' within this program and move onto
+!  the next record:
+        IF ( abs(a5(1)) .GE. 99999. ) then
+         a5(1) = 9999.
+        ELSE
 
          IF ( a5(1) .GT. 127. ) then     ! amount > 5"/hr?
-           IF ( abs(a5(1)) .GE. 99999. ) a5(1) = -9999.
            if (abs(clat).ge.999.) clat=-999.
            if (abs(clon).ge.999.) clon=-999.
            write(52,7774)                                                     &
@@ -230,7 +239,6 @@
 
          do k1=1,iblst
            if (chrid.eq.stblst(k1)) then
-             IF ( abs(a5(1)) .GE. 99999. ) a5(1) = -9999.
              if (abs(clat).ge.999.) clat=-999.
              if (abs(clon).ge.999.) clon=-999.
              write(52,7775)                                                   &
@@ -258,8 +266,8 @@
           write(53,222) lk,chrid,clat,clon,a5(1),iyr,imn,iday,ihr,imin
          endif
 
-         endif
-
+         endif  
+        ENDIF  ! abs(a5(1)) >= 99999.? 
   222   format(i5,2x,a8,3f8.2,3x,i4,2i2.2,1x,2i2.2)
 
 !   end of station loop

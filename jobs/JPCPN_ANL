@@ -66,9 +66,6 @@ export SCRIPTpcpanl=$HOMEpcpanl/scripts
 export utilparm=$HOMEpcpanl/util/parm
 # coltbl.xwp.wbg and wmogrib.tbl: 
 export GEMFIX=${GEMFIX:-$HOMEpcpanl/gempak/fix}
-# dumpjb:
-HOMEobsproc_dump=${HOMEobsproc_dump:-${NWROOTp1:?}/obsproc_dump.${obsproc_dump_ver:?}}
-export USHobsproc_dump=${USHobsproc_dump:-${HOMEobsproc_dump}/ush}
 # Default values for the retro/debug/mode, unless set otherwise by dev calling
 # script:
 export retro=${retro:-N}
@@ -106,7 +103,7 @@ export COMURMA=${COMURMA:-${COMROOT}/urma/${envir}}/pcpurma
 # Starting 14 May 2019 on Dell: DCOMROOT=/gpfs/dell1/nco/ops/dcom
 export MRMSDIR=$DCOMROOT/prod/ldmdata/obs/upperair/mrms/conus/GaugeCorr_QPE
 
-# for RFCQPE:
+# for RFC QPE (Stage IV) and for radar DPA: 
 export DCOM=$DCOMROOT/prod
 # For dumpjb:
 export TANK=$DCOMROOT/prod
