@@ -426,7 +426,7 @@ ioEOF
   # In erly run, kick off the RTMA job
   if [ $run = erly ]; then
     if [ $RUN_ENVIR = dev ]; then
-      bsub < $HOMErtma/suggested_LSF_settings/pcprtma/PCPRTMA.lsf
+#     bsub < $HOMErtma/suggested_LSF_settings/pcprtma/PCPRTMA.lsf
     else
       ## FOR NCO
       ecflow_client --event stage2erly_done

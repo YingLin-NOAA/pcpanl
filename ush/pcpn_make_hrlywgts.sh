@@ -27,7 +27,7 @@ do
     exit
   fi
 
-  $MYWGRIB2 $mrms -rpn "dup:-3:!=:mask" -set_scaling -1 0 -set_bitmap 1 -set_grib_type c3 -grib_out mrms.$v1date
+  $WGRIB2 $mrms -rpn "dup:-3:!=:mask" -set_scaling -1 0 -set_bitmap 1 -set_grib_type c3 -grib_out mrms.$v1date
   # Copy it to the pcpurma.yyyymmdd for oconus fill:
   URMADIR=$COMURMA.$v1day
   if [ ! -s $URMADIR/mrms.$v1date.gz ]; then

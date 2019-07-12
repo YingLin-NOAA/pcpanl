@@ -133,7 +133,8 @@ cat checked.list.newqpe.westcoast.$date | cut -c 9-22 | sort -u -r > list.uniq.q
 cat list.uniq.qpehrs.westcoast.$date | while read tmp
 do
   endtime=`echo $tmp | awk -F"." '{print $1}'`
-  endday=${enddate:0:8}
+# endday=${enddate:0:8}
+  endday=${endtime:0:8}
   if [ -s $COMOUT/pcpanl.$endday/hrlywgts_153.$endtime ]; then
     date1h=`$NDATE -5 $endtime`
     while [ $$date1h -le $endtime ]

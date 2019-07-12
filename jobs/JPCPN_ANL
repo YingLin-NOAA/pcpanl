@@ -72,9 +72,6 @@ export retro=${retro:-N}
 export debug=${debug:-N}
 export mode=${mode:-MULTI}
 
-# SPA added this for Prod v3.0.0, since prod does not use my ECF file: 
-export MYWGRIB2=$HOMEpcpanl/lib/grib2/wgrib2/wgrib2
-
 #########################################
 # Run setpdy and initialize PDY variables
 #########################################
