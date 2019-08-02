@@ -1,3 +1,0 @@
-      character*3 radid
-      character*200 filrad,filgag,filsat
-      common/ppinp/ifinrd,ifingg,ifinst,idebug,filrad,filgag,filsat,radid

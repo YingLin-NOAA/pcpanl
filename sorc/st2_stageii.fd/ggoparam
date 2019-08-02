@@ -1,3 +1,0 @@
-      COMMON/ggoparam/IDMAX,IWIND,GRMIN,IDRMIN,                               &
-     &   rainmingg,distmingg,cor0pi,cor0i,rangei,cor0pc,                      &
-     &   cor0c,rangec,itygg,radius,nbrsgg            
