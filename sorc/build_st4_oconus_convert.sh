@@ -13,7 +13,7 @@ module load PCPANL
 
 module list
 
-cd ${BASE}/st4_oconus_grid_shift.fd
+cd ${BASE}/st4_oconus_convert.fd
 make clean
 make
 make mvexec

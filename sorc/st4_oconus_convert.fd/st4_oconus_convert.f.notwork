@@ -1,4 +1,4 @@
-      program oconus_grid_shift
+      program st4_oconus_convert
 !
 ! Read in a QPE file (GRIB1) from an OConUS RFC (either the original QPE or 
 ! accumulated into 6h and 24 at NCEP - in case of PR QPE).  Assume that the 
@@ -10,9 +10,10 @@
 ! 
 !   Programmer: Ying lin    Date: 2016-11-18
 ! Input: 
-!   Unit 11: input QPE
+!   Unit 11: parm file: GRIB2 table for APCP
+!   Unit 12: input QPE
 ! Output:
-!   Unit 51: output (ST4_ak[pr].yyyymmddhh.xxh)
+!   Unit 51: output (ST4_ak[pr].yyyymmddhh.xxh.grb2)
 ! History:
 !   2017-05-02: do not apply data mask for PR: NBM would like coverage for
 !       entire domain (data mask for AK: removed this item earlier since
@@ -28,13 +29,14 @@
       logical*1  bit(lmax)
       integer iptable(13)
 !
-      read(5,'(a10)',err=101) vdate
+      read(5,'(a10)') vdate
 !
 ! read in the input precip file using getgb:
 !
       jpds = -1
-      call baopenr(11,'fort.11',ibaret) 
-      call getgb(11,0,lmax,-1,jpds,jgds,kf,k,kpds,kgds,bit,pcp,iret)
+      call baopenr(12,'fort.12',ibaret) 
+      write(6,*) 'after baopenr, ibaret=', ibaret
+      call getgb(12,0,lmax,-1,jpds,jgds,kf,k,kpds,kgds,bit,pcp,iret)
       if ( ibaret .ne. 0 .or. iret .ne. 0 ) then
         write(6,*) 'Error reading in the QPE. ibaret, iret=', ibaret, iret
         stop

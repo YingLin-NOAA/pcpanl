@@ -1,0 +1,43 @@
+************************************************************************
+*                                                                      *
+*  LOOKUP TABLE FOR FIXED PDS ELEMENTS FOR LDAS OUTPUT POST-PROCESSOR  *
+*  ROUTINE.                                                            *
+*  AUTHOR:  YOULONG XIA                                                *
+*  DATE: SEPTEMBER 22,2013
+*______________________________________________________________________*
+*                                                                      *
+*  IPDS ELEMENTS THAT CHANGE WITH TIME OR MODEL THAT ARE DEFINED IN    *
+*  POST-PROCESSOR ROUTINE:                                             *
+*                                                                      *
+*  sec0(1)      0: Meteorological Products;1: Hydrologiical Products;  *
+*               2: Land Surface Products                               *
+*  ipdsnum      0: simultaneously; 8: accumulate or average            *
+*  ipdstmp(24)  0: avergae; 1: accumulation (shown in code)            *
+*  ipdstemllen  number of parameters in pdt template table             *
+*               15: simultaneously; 30: accumulation or average        *
+*  ipdstmp(1)   category selected from sec0(1) and grib2 table in Sec4 *
+*               see Table 4.0 for ipdsnum=0 and Tbale 4.8 for ipdsnum=8*
+*  ipdstmp(2)   Number for parameter (obtained from GRIB2 TAB          *
+*  ipdstmp(10)  1: Ground surface;103: specified height level above    *
+*               ground; 106:depth below land surface (m)               *        
+*  pdstmp(11)  scaled factor of first fixed surface; 0:surface, 2:Soil*
+*  ipdstmp(12)  Value of soil layer depth (0, 10, 40, 100)             *
+*  ipdstmp(13)  1: Ground surface;103: specified height level above    *
+*               ground; 106:depth below land surface (m) dor 2nd layer *
+*  ipdstmp(14) scaled factor of 2nd fixed surface; 0:surface, 2:Soil   *
+*  ipdstmp(15) Value of soil layer depth (0, 10, 40, 100, 200)         *
+*  ipdstmp(24) 0: average; 1: accumulation                             *
+*  idrstmp(3)   Decimal scale factor                                   *
+*  THE ELEMENTS USED HERE THAT REMAIN FIXED (DO NOT VARY BY LDAS MODEL,*
+*  TIME STEP, OR AMONG THE OUTPUT PARAMTERS) AND ARE DEFINED NOT IN    *
+*  THE TABLE, BUT IN THE OUTPUT POST-PROCESSOR ROUTINE:                *
+*                                                                      *
+*  DETALIS CAN SEE                                                     *
+*  http://www.nco.ncep.noaa.gov/pmb/docs/grib2/grib2_doc.shtml         *
+*                                                                      *
+************************************************************************
+*ABBREV   sec0(1) ipdsnum ipdstemllen ipdstmp(1) ipdstmp(2) ipdstmp(10)*
+*ipdstmp(10),ipdstmp(12) ipdstmp(13) ipdstmp(14) ipdstmp(15)ipdstmp(24)*
+*idrstmp(3)                                                            *
+------------------------------------------------------------------------
+        APCP    0   8  30   1     8    1   0    0   255   0    0   1   4
