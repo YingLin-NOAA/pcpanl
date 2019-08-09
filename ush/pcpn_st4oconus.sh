@@ -144,10 +144,12 @@ cd $DATAST4
 QPEfile=$qpedir/QPE.$rid.$date.$ac
 # double-check for the existence of the input QPE:
 if [[ $qpeaok = YES && -s $QPEfile ]]; then
-  export pgm=st4_oconus_grid_shift
-  ln -sf $QPEfile                    fort.11
-  ln -sf st4_${region}.$date.$ac     fort.51
-  $EXECpcpanl/st4_oconus_grid_shift
+  export pgm=st4_oconus_convert
+  ln -sf $QPEfile                      fort.11
+  ln -sf st4_${region}.$date.$ac.grb2  fort.51
+  $EXECpcpanl/st4_oconus_convert << ioEOF
+$date
+ioEOF
   export err=$?; echo "After $pgm, err=$err"; err_chk
 
   # we are in $DATAST4.  'toplot4' is in the parent directory.
@@ -171,16 +173,14 @@ then
 fi # when ac=06, create the precip URMA.
 
 if [ $qpeaok = YES ]; then
-  gzip st4_${region}.$date.$ac
-
   if test $SENDCOM = 'YES'
   then
-    cp st4_${region}.$date.$ac.gz $COMOUT/${RUN}.$day/.
+    cp st4_${region}.$date.$ac.grb2 $COMOUT/${RUN}.$day/.
   fi
 
   if test $SENDDBN = 'YES'
   then
-    $DBNROOT/bin/dbn_alert MODEL PCPANL $job $COMOUT/${RUN}.$day/st4_${region}.$date.$ac.gz
+    $DBNROOT/bin/dbn_alert MODEL PCPANL $job $COMOUT/${RUN}.$day/st4_${region}.$date.$ac.grb2
   fi
 
 fi # qpeaok=YES?

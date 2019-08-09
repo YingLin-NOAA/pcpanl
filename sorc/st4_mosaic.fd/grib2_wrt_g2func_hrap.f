@@ -1,5 +1,5 @@
-      subroutine grib2_wrt_g2func_hrap(nx,ny,alat1,alon1,
-&              fld,bmap,vdate,acc,iptable,lugb,ierr)
+      subroutine grib2_wrt_g2func_hrap(nx,ny,alat1,alon1,                     &
+                     fld,bmap,vdate,acc,iptable,lugb,ierr)
 !-----------------------------------------------------------------
 ! ABSTRACT: This routine is to write out a new grib2 file
 !   March 2013:     J.Wang
@@ -69,8 +69,7 @@
       integer ifilw,i,j,lengrib,lon1,lon2,lat1,lat2,idx,idy,ierr
       integer yyyy,mm,dd,hh,lugb
 !
-      write(6,*) 'in grib2_wrt_g2func_hrap, alat1, alon1=', 
-     &    alat1, alon1
+      write(6,*) 'in grib2_wrt_g2func_hrap, alat1, alon1=', alat1, alon1
 !
 ! code start
 !-----------------------------------------------------------------
@@ -154,8 +153,8 @@
 !
       idefnum=1             ! Used if igds(3) .ne. 0. The number of entries in array ideflist
       ideflist=0            ! Used if igds(3) .ne. 0. number of grid points contained in each row ( or column ), Dummy array otherwise
-      call addgrid(cgrib,max_bytes,igds,igdstmpl,igdstmpllen,ideflist,
-     &             idefnum,ierr)
+      call addgrid(cgrib,max_bytes,igds,igdstmpl,igdstmpllen,ideflist,        &
+                   idefnum,ierr)
 !      print*,'addgrid status=',ierr
 !
 !-- section 4: product definition section
@@ -217,9 +216,9 @@
 !-- section 6:       
       ibmap=0  ! Bit-map indicator (Table 6.0) (0:A bit map applies, 255:A bit map doesn't apply)
 !
-      call addfield(cgrib,max_bytes,ipdsnum,ipdstmpl,ipdstmpllen,
-     &              coordlist,numcoord,idrsnum,idrstmpl,idrstmpllen,
-     &              fld,nx*ny,ibmap,bmap,ierr)
+      call addfield(cgrib,max_bytes,ipdsnum,ipdstmpl,ipdstmpllen,             &
+                    coordlist,numcoord,idrsnum,idrstmpl,idrstmpllen,          &
+                    fld,nx*ny,ibmap,bmap,ierr)
       if(ierr.ne.0) then
       print*,'addfield fails and status=',ierr
       endif  ! if(iptable(2).eq.8)

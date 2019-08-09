@@ -46,58 +46,7 @@ cp $GEMFIX/wmogrib.tbl .
 # moment of transition, we might need to process previous hours'/day's *.Z
 # files copied over from the CCS.
 #   
-# 1. Plot Stage II analysis:
-
-cat > toplot2.$date0 <<EOF
-$date0.01h
-$datem6h.01h
-$datem18h.01h
-EOF
-
-if [[ $cyc -eq 08 || $cyc -eq 14 || $cyc -eq 20 ]]; then
-  if [ $cyc -le 12 ]; then
-    day=$PDYm1
-  else
-    day=$PDY
-  fi
-  daym1=`finddate.sh $day d-1`
-
-  cat >> toplot2.$date0 <<EOF
-${daym1}18.06h
-${day}00.06h
-${day}06.06h
-${day}12.06h
-${day}12.24h
-EOF
-
-fi
-
-if [ $SENDCOM = 'YES' ]; then
-  cp toplot2.$date0 $COMOUT/$RUN.$PDY/
-fi
-
-for item in `cat toplot2.$date0`
-do 
-  date=`echo $item | cut -c1-10`
-  day=`echo $item | cut -c1-8`
-  ac=`echo $item | cut -c12-13`
-  if [ $ac -eq 01 ]; then
-    st2file=multi15.$date
-    st2plot=st2vu.$date.gif
-  else
-    st2file=multi15.$date.${ac}h
-    st2plot=st2ml.$date.${ac}h.gif
-  fi
-  mkdir $st2file
-  zcat $COMIN/$RUN.$day/$st2file.gz >$st2file/$st2file
-  if [ $? -eq 0 ]; then
-    echo "$USHpcpanl/pcpn_plotpcp.sh $st2file $st2plot $date $ac \"Stage II Multi-Sensor\"" >>poescript
-  else
-    echo -e "WARNING: $COMIN/$RUN.$day/$st2file.gz was not generated successfully and therefore cannot be plotted.\n" >>$DATA/emailmsg.txt
-  fi
-done
-
-# 2. Stage IV: check the opnl 'todo' list for any new items for this hour.
+# check the opnl 'todo' list for any new Stage IV for this hour.
 #    Post-process the items on the 'todo' list.
 
 cp $COMIN/$RUN.$PDY/toplot4.$date0 .
@@ -110,19 +59,16 @@ if [ -s toplot4.$date0 ]; then
     ac=`echo $item | awk -F"." '{print $2}' | cut -c1-2`
     region=`echo $item | awk -F"." '{print $3}'`
     if [ $region = conus ]; then
-      ST4file=st4.$date.${ac}h
-      ST4file_in=ST4.$date.${ac}h  # CONUS ST4 data files still use uppercase in COM
+      ST4item=st4.$date.${ac}h
     else
-      ST4file=st4_${region}.$date.${ac}h
-      ST4file_in=$ST4file
+      ST4item=st4_${region}.$date.${ac}h
     fi
-    mkdir $ST4file
-    zcat $COMIN/$RUN.$day/$ST4file_in.gz >$ST4file/$ST4file
+    cp $COMIN/$RUN.$day/${ST4item}.grb2 > $ST4item/.
     if [ $? -eq 0 ]; then
       # Now make the plot:
-      echo "$USHpcpanl/pcpn_plotpcp.sh $ST4file $ST4file.gif $date $ac \"Stage IV\" $region" >>poescript
+      echo "$USHpcpanl/pcpn_plotpcp.sh $ST4item.grb2 $ST4item.gif $date $ac \"Stage IV\" $region" >>poescript
     else
-      echo -e "WARNING: $COMIN/$RUN.$day/$ST4file_in.gz was not generated successfully and therefore cannot be plotted.\n" >>$DATA/emailmsg.txt
+      echo -e "WARNING: $COMIN/$RUN.$day/$ST4item.grb2 was not generated successfully and therefore cannot be plotted.\n" >>$DATA/emailmsg.txt
     fi
   done # finished processing ST4 to-plot list
 fi # ST4 to-plot list exists?
@@ -158,4 +104,3 @@ else
 fi
 
 exit
-

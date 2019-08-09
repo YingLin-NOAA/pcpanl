@@ -28,6 +28,8 @@
 !  bit is the dummy bitmap file (as a place holder in getgb, not actually used)
       logical*1  bit(lmax)
       integer iptable(13)
+      real(4) alat1, alon1,alat1p5, alon1p5
+
       character varnam*19, vdate*10
 !
       read(5,'(a10)') vdate
@@ -39,7 +41,7 @@
       write(6,*) 'after baopenr, ibaret=', ibaret
       call getgb(11,0,lmax,-1,jpds,jgds,kf,k,kpds,kgds,bit,pcp,iret)
       if ( ibaret .ne. 0 .or. iret .ne. 0 ) then
-        write(6,*) 'Error reading in the QPE. ibaret, iret=', ibaret, iret
+        write(6,*) 'Error reading in the QPE. ibaret, iret=',ibaret,iret
         stop
       endif
 !

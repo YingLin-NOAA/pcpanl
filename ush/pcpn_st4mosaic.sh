@@ -236,7 +236,7 @@ startmsg
 
 rm -f fort.*
 ln -sf stage3_mask.grb                  fort.11
-ln -sf st4.$date.$ac                    fort.51
+ln -sf st4.$date.$ac.grb2               fort.51
 ln -sf $st3dir/QPE.150.$date.$ac        fort.150
 ln -sf $st3dir/QPE.152.$date.$ac        fort.152
 ln -sf $st3dir/QPE.154.$date.$ac        fort.154
@@ -262,7 +262,9 @@ fi
 # fi
 #
 
-$EXECpcpanl/st4_mosaic 
+$EXECpcpanl/st4_mosaic << ioEOF
+$date
+ioEOF
 export err=$?;err_chk
 echo '     err=' $? 
 
@@ -275,16 +277,14 @@ then
   echo $date.$ac.conus >> $DATA/todo_urma.${PDY}${cyc}
 fi
 
-gzip st4.$date.$ac
-
 if test $SENDCOM = 'YES'
 then
-  cp st4.$date.$ac.gz $COMOUT/${RUN}.$day/ST4.$date.$ac.gz
+  cp st4.$date.$ac.grb2 $COMOUT/${RUN}.$day/.
 fi
 
 if test $SENDDBN = 'YES'
 then
-  $DBNROOT/bin/dbn_alert MODEL PCPANL $job $COMOUT/${RUN}.$day/ST4.$date.$ac.gz
+  $DBNROOT/bin/dbn_alert MODEL PCPANL $job $COMOUT/${RUN}.$day/st4.$date.$ac.grb2
 fi
 
 #####################################################################

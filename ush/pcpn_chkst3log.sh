@@ -265,8 +265,8 @@ ${PDYm1}14.01h
 EOF01h
 fi
 
-# At 12:33Z, re-run 6-hourly analyses for the 24h periods ending at 
-# 12Z $PDYm7, $PDYm5, $PDYm3, $PDYm1 for ConUS, $PDYm7 for OConUS.  
+# At 12:33Z, re-run 6h and 24h analyses and for the 24h periods ending at 
+# 12Z $PDYm7, $PDYm5, $PDYm3, $PDYm2, $PDYm1 for ConUS, $PDYm7 for OConUS.  
 
 if [ $cyc -eq 12 ]; then
   cat >> todo4.conus.06h.$date <<EOF06h
@@ -323,6 +323,18 @@ EOF24h
 ${PDYm7}12.24h
 EOF24h
 fi # $cyc -eq 12?
+
+# At 18:33Z, re-run ConUS 24-hour mosaic for the 24h periods ending at 
+#  12Z $PDYm1.  This is the additional 30-h rerun requested by WPC's Greg Carbin
+#  on 2019/05/10, so that an RFC update for the previous day (24h ending at 
+#  12Z $daym1 might be incorporated into the AHPS water.weather.gov page
+#  before the next day's 12Z cycle run.  
+#
+if [ $cyc -eq 12 ]; then
+  cat >> todo4.conus.24h.$date <<EOF24h
+${PDYm1}12.24h
+EOF24h
+fi 
 
 # run 24h ConUS mosaic for the day at 12:33/13:33 .../23:33Z (the 12:33 case 
 # is covered above.

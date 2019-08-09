@@ -42,7 +42,7 @@ fi
 
 rm -f *.grd
 
-nagrib << EOFgrib
+nagrib2 << EOFgrib
  GBFILE   = $GBFILE
  INDXFL   =
  GDOUTF   = $GDFILE
@@ -53,7 +53,7 @@ nagrib << EOFgrib
  CPYFIL   = GDS
  GAREA    = dset
  OUTPUT   = T
- GBTBLS   = wmogrib.tbl
+ GBTBLS   = 
  GBDIAG   =
  PDSEXT   = NO
  

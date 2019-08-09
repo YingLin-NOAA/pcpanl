@@ -6,13 +6,6 @@ export BASE
 cd $BASE
 
 #partial compile list
-export BUILD_st2_combdpa=yes
-export BUILD_st2_dpa_decode=yes
-export BUILD_st2_mosaic=yes
-export BUILD_st2_prephads=yes
-export BUILD_st2_prepmetar=yes
-export BUILD_st2_remap=yes
-export BUILD_st2_stageii=yes
 export BUILD_pcp_acc=yes
 export BUILD_st4_mosaic=yes
 export BUILD_st4_mrms_hrlywgts=yes

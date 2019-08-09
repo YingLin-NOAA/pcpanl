@@ -1,12 +1,12 @@
 SHELL=		/bin/sh
 
-LIBS=           ${W3NCO_LIB4} ${W3EMC_LIB4} ${BACIO_LIB4}
+LIBS=           ${G2_LIB4} ${W3NCO_LIB4} ${W3EMC_LIB4} ${BACIO_LIB4} ${JASPER_LIB} ${PNG_LIB} ${Z_LIB}
 FC=             ifort
 FFLAGS=         -FR -cpp 
 
 LDFLAGS=
-SRCS=		mosaic.f 
-OBJS=		mosaic.o 
+SRCS=		mosaic.f grib2_wrt_g2func_hrap.f 
+OBJS=		mosaic.o grib2_wrt_g2func_hrap.o
 CMD=		st4_mosaic
 
 all:		$(CMD)
