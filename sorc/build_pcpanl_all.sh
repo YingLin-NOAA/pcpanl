@@ -9,7 +9,7 @@ cd $BASE
 export BUILD_pcp_acc=yes
 export BUILD_st4_mosaic=yes
 export BUILD_st4_mrms_hrlywgts=yes
-export BUILD_st4_oconus_grid_shift=yes
+export BUILD_st4_oconus_convert=yes
 export BUILD_st4_qpe6h_to_1h=yes
 
 mkdir $BASE/logs
@@ -77,10 +77,10 @@ cd $BASE
 
 ##############################
 
-if [ $BUILD_st4_oconus_grid_shift = yes ] ; then
+if [ $BUILD_st4_oconus_convert = yes ] ; then
 
 echo " .... Building st4_oconus_grid_shift .... "
-./build_st4_oconus_grid_shift.sh > $logs_dir/build_st4_oconus_grid_shift.log 2>&1
+./build_st4_oconus_convert.sh > $logs_dir/build_st4_oconus_grid_shift.log 2>&1
 
 fi
 

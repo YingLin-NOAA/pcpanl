@@ -145,8 +145,9 @@ QPEfile=$qpedir/QPE.$rid.$date.$ac
 # double-check for the existence of the input QPE:
 if [[ $qpeaok = YES && -s $QPEfile ]]; then
   export pgm=st4_oconus_convert
-  ln -sf $QPEfile                      fort.11
-  ln -sf st4_${region}.$date.$ac.grb2  fort.51
+  ln -sf $QPEfile                        fort.11
+  ln -sf $HOMEpcpanl/parm/grib2_pds.tbl  fort.12
+  ln -sf st4_${region}.$date.$ac.grb2    fort.51
   $EXECpcpanl/st4_oconus_convert << ioEOF
 $date
 ioEOF
