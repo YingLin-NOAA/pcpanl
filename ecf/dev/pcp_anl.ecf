@@ -7,13 +7,6 @@ set -x
 # This script has two optional arguments:
 #   arg 1: yyyymmddhh 
 #   arg 2: debug (if in debug mode, do not delete the working directory)
-#   arg 3: Single mode - only make erly/mid/late run (one of them, as
-#          specified by argument.  No POE.
-
-# arg #1: pdyhh=yyyymmddhh: in this mode, the 'erly' ST2 analysis would 
-#   be the one hour ending at $pdyhh, 'mid' ST2 would be ${pdyhh}m6, 
-#   and 'late' ST2 would be ${pdyhh}m18.  If this argument is not provided,
-#   then pdyhh is set to the current time, in the jobs script. 
 
 export retro=N
 if [ $# -ge 1 ]; then
@@ -36,22 +29,12 @@ fi
 export KEEPDATA=YES
 # arg #3: run in the non-POE mode, only one run (erly or mid or late) is made.
 # 
-export mode=MULTI
-if [ $# -ge 3 ]; then
-  arg3=$3
-  if [ $arg3 = erly -o $arg3 = mid -o $arg3 = late ]; then
-    export mode=SINGLE
-    export runtype=$arg3
-  elif [ $arg3 = ST4 ]; then
-    export mode=ST4
-  fi
-fi
 
 if [ "$envir" = userdev ]; then 
   USERHOME=/gpfs/dell2/emc/verification/noscrub/Ying.Lin
   export HOMEpcpanl=$USERHOME/pcpanl/pcpanl.$model_ver
-  export HOMErtma=$USERHOME/pcpanl/rtma.v2.7.1
-  export HOMEurma=$USERHOME/pcpanl/urma.v2.7.3
+  export HOMErtma=$USERHOME/pcpanl/rtma.v2.8.0
+  export HOMEurma=$USERHOME/pcpanl/urma.v2.8.0
   # outid is what prod uses to name the job output file, e.g.
   # nam_pcpn_anal_2033.o2467312  (outid.$o${pid}
   # below is my approximation to prod outid:
@@ -72,8 +55,6 @@ if [ "$envir" = userdev ]; then
 # moved to
 #   /gpfs/dell1/nco/ops/com/mos/prod/hry_mos.20190424/sfctbl.12
 # Replace COMINhourly with COMINhry_mos
-  export COMINhry_mos=/gpfs/dell2/ptmp/Ying.Lin/pcpanl/hry_mos
-  export COMINgaugeqc=`compath.py hourly/prod`/gaugeqc
 # 
 # coltbl.xwp.wbg and wmogrib.tbl are not in Tide's /nwprod/gempak/fix yet.
   export GEMFIX=$HOMEpcpanl/gempak/fix

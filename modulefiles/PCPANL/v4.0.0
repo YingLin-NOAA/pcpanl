@@ -1,7 +1,7 @@
 #%Module######################################################################
 ##                                                           Ying.Lin@noaa.gov
 ##                                                           NOAA/NWS/NCEP/EMC
-## PCPANL v3.1.3
+## PCPANL v4.0.0
 ##_____________________________________________________
 proc ModulesHelp { } {
 puts stderr "Set environment veriables for PCPANL"
@@ -34,4 +34,6 @@ module load jasper/1.900.1
 module load libpng/1.2.44
 module load zlib/1.2.11
 
-
+# user library:
+setenv WGRIB2LIB /gpfs/dell2/emc/verification/noscrub/Ying.Lin/pcpanl/pcpanl.${ver}/lib/grib2/lib/libwgrib2.a
+setenv WGRIB2INC /gpfs/dell2/emc/verification/noscrub/Ying.Lin/pcpanl/pcpanl.${ver}/lib/grib2/lib

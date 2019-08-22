@@ -60,9 +60,17 @@ if [ -s toplot4.$date0 ]; then
     region=`echo $item | awk -F"." '{print $3}'`
     ST4item=st4_${region}.$date.${ac}h
     cp $COMIN/$RUN.$day/${ST4item}.grb2 > $ST4item/.
+    if [ $region = conus ]; then
+      ST4item=st4.$date.${ac}h
+    else
+      ST4item=st4_${region}.$date.${ac}h
+    fi
+    mkdir $ST4item
+    cp $COMIN/$RUN.$day/${ST4item}.grb2 $ST4item/.
     if [ $? -eq 0 ]; then
-      # Now make the plot:
-      echo "$USHpcpanl/pcpn_plotpcp.sh $ST4item.grb2 $ST4item.gif $date $ac \"Stage IV\" $region" >>poescript
+      # Now make the plot.  Note that ST4item below is the subdir containing
+      # $ST4item.grb2:
+      echo "$USHpcpanl/pcpn_plotpcp.sh $ST4item $ST4item.gif $date $ac \"Stage IV\" $region" >>poescript
     else
       echo -e "WARNING: $COMIN/$RUN.$day/$ST4item.grb2 was not generated successfully and therefore cannot be plotted.\n" >>$DATA/emailmsg.txt
     fi

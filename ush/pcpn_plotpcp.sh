@@ -27,8 +27,6 @@ GDFILE=${GBFILE}.grd
 #  "GDFILE=${GBFILE}.grd".  So just remove "*.grd".
  
 cd $PLOTDIR/$GBFILE
-ln -s ../coltbl.xwp .
-ln -s ../wmogrib.tbl .
 
 if [ -e $GFFILE ]; then
   rm -f $GFFILE
@@ -37,7 +35,7 @@ fi
 rm -f *.grd
 
 nagrib2 << EOFgrib
- GBFILE   = $GBFILE
+ GBFILE   = $GBFILE.grb2
  INDXFL   =
  GDOUTF   = $GDFILE
  PROJ     =

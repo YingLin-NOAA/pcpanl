@@ -236,6 +236,7 @@ startmsg
 
 rm -f fort.*
 ln -sf stage3_mask.grb                  fort.11
+ln -sf $HOMEpcpanl/parm/grib2_pds.tbl   fort.12
 ln -sf st4_conus.$date.$ac.grb2         fort.51
 ln -sf $st3dir/QPE.150.$date.$ac        fort.150
 ln -sf $st3dir/QPE.152.$date.$ac        fort.152
