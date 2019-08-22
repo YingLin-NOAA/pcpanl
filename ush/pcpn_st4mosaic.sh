@@ -236,7 +236,7 @@ startmsg
 
 rm -f fort.*
 ln -sf stage3_mask.grb                  fort.11
-ln -sf st4.$date.$ac.grb2               fort.51
+ln -sf st4_conus.$date.$ac.grb2         fort.51
 ln -sf $st3dir/QPE.150.$date.$ac        fort.150
 ln -sf $st3dir/QPE.152.$date.$ac        fort.152
 ln -sf $st3dir/QPE.154.$date.$ac        fort.154
@@ -279,12 +279,12 @@ fi
 
 if test $SENDCOM = 'YES'
 then
-  cp st4.$date.$ac.grb2 $COMOUT/${RUN}.$day/.
+  cp st4_conus.$date.$ac.grb2 $COMOUT/${RUN}.$day/.
 fi
 
 if test $SENDDBN = 'YES'
 then
-  $DBNROOT/bin/dbn_alert MODEL PCPANL $job $COMOUT/${RUN}.$day/st4.$date.$ac.grb2
+  $DBNROOT/bin/dbn_alert MODEL PCPANL $job $COMOUT/${RUN}.$day/st4_conus.$date.$ac.grb2
 fi
 
 #####################################################################

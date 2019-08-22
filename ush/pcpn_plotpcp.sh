@@ -10,13 +10,7 @@ GFFILE=$2
 DATE=$3
 AC=$4
 TITLE="$5 ${AC}h Accum (mm) Ending $DATE"
-
-# optional argument: region (ak, hi or pr)
-if [ $# -gt 5 ]; then 
-  region=$6
-else
-  region=conus
-fi
+region=$6
 
 # GDPFUN needs to be p01m/p03m/p24m, etc., so pad $AC with leading zero, if
 # necessary.

@@ -58,11 +58,7 @@ if [ -s toplot4.$date0 ]; then
     day=`echo $date | cut -c1-8`
     ac=`echo $item | awk -F"." '{print $2}' | cut -c1-2`
     region=`echo $item | awk -F"." '{print $3}'`
-    if [ $region = conus ]; then
-      ST4item=st4.$date.${ac}h
-    else
-      ST4item=st4_${region}.$date.${ac}h
-    fi
+    ST4item=st4_${region}.$date.${ac}h
     cp $COMIN/$RUN.$day/${ST4item}.grb2 > $ST4item/.
     if [ $? -eq 0 ]; then
       # Now make the plot:

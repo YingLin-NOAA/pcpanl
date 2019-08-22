@@ -1,0 +1,39 @@
+#!/bin/bash
+set -x
+
+# Plots one URMA field using the standard 
+# /nwprod/ush/nam_pcpn_plotpcp.sh.
+# Could be either the full ConUS grid (g184) or NWRFC grid (g188) URMA - 
+#   set 'urmagrd' below.
+# 
+. /usrx/local/prod/lmod/lmod/init/bash
+module purge
+module load gnu/4.8.5 # needed for gempak module
+module load gempak/7.3.1
+
+echo Actual output starts: 
+
+DATADIR=/gpfs/dell2/emc/verification/noscrub/Ying.Lin/pcpanl/pcpanl.v4.0.0/test.grb2
+RTMADIR=/gpfs/dell2/emc/verification/noscrub/Ying.Lin/pcpanl/rtma.v2.7.1
+PARMDIR=$RTMADIR/gempak/fix/pcprtma
+file=st4_pr.2019080500.06h.grb2
+
+wrkdir=/gpfs/dell2/stmp/Ying.Lin/Ying.Lin/plot_gem
+if ! [ -d $wrkdir ]; then
+  mkdir -p $wrkdir
+else
+  rm -f $wrkdir/*
+  echo ' '
+fi
+
+cd $wrkdir
+
+cp $PARMDIR/coltbl.xwp.wbg coltbl.xwp
+cp $PARMDIR/g2varswmo2.tbl .
+
+cp $DATADIR/$file .
+
+export PLOTDIR=$wrkdir # PLOTDIR needed for pcpn_plotpcp_grb2.sh
+$RTMADIR/ush/pcpn_plotpcp_grb2.sh $file $file.gif $date 01 "RTMA $date"
+
+exit
