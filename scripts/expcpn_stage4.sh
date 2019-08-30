@@ -117,7 +117,7 @@ fi
 # Kick off the URMA job
 if [ $RUN_ENVIR = dev ]; then
   # HOMEurma defined in ecf/dev/pcp_anl.ecf
-  #  bsub < $HOMEurma/suggested_LSF_settings/pcpurma/PCPURMA.lsf
+  bsub < $HOMEurma/suggested_LSF_settings/pcpurma/PCPURMA.lsf
   echo '  '
 else
   ## FOR NCO
