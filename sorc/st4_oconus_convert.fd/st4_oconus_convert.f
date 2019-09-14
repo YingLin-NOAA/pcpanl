@@ -98,12 +98,12 @@
 ! AK and PR QPE seems to have 2-3 significant digits after the decimal point.  
 ! 
       call baopenw(51,'fort.51',ibaret)
-      write(6,*) 'alat1,alon1,alat1p5,alon1p5=',
-     &  alat1,alon1,alat1p5,alon1p5
+      write(6,*) 'alat1,alon1,alat1p5,alon1p5=',                              &
+        alat1,alon1,alat1p5,alon1p5
 ! For some reason a negative alon1p5 (-70.58200) doesn't work, so add 360 to
 !   it to make it positive:
-      call grib2_wrt_g2func_hrap(nx,ny,alat1p5,360.+alon1p5,
-     &                       pcp,bit,vdate,acc,iptable,51,iret)
+      call grib2_wrt_g2func_hrap(nx,ny,alat1p5,360.+alon1p5,                  &
+                             pcp,bit,vdate,acc,iptable,51,iret)
       write(6,*) 'output oconus st4 in grb2, ibaret,iret=',ibaret,iret
 !
       stop

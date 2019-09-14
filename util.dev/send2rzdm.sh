@@ -55,17 +55,13 @@ do
   day=`echo $item | cut -c 1-8`
   acc=`echo $item | cut -c 12-14`
   region=`echo $item | awk -F"." '{print $3}'`
-  if [ $region = conus ]; then
-    st4pfx=st4.${date}.$acc
-  else
-    st4pfx=st4_${region}.${date}.$acc
-  fi
+  st4pfx=st4_${region}.${date}.$acc
   RZDMDIR=/home/ftp/emc/mmb/precip/pcpanl.v4.0.0/pcpanl.$day
   ssh wd22yl@emcrzdm "mkdir -p $RZDMDIR"
   cd $COMOUT/${RUN}.$day
 
 #  scp $st4pfx.* $st4gifpfx.* wd22yl@emcrzdm:$RZDMDIR/.
-  scp $st4pfx.grb2 wd22yl@emcrzdm:$RZDMDIR/.
+  scp $st4pfx.grb2 $st4pfx.gif wd22yl@emcrzdm:$RZDMDIR/.
 done
 
 exit

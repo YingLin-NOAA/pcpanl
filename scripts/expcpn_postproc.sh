@@ -7,10 +7,8 @@
 #
 # Steps:
 #   1. Prep; copy over the two GEMPAK fix files (coltbl.xwp.wbg and 
-#      wmogrib.tbl) 
-#   2. Plot Stage II hourly multi-sensor analysis for early/mid/late
-#   3. Plot 6h and 24h Stage II analysis (08/14/20Z only)
-#   4. Plot hourly/6-hourly/24h Stage IV that are made at this hour (if any),
+#      wmogrib.tbl) into each $ST4item/ dir
+#   2. Plot hourly/6-hourly/24h Stage IV that are made at this hour (if any),
 #      based on the 'todo4' list.
 
 set -x
@@ -31,15 +29,6 @@ cd $PLOTDIR
 
 pgmout=out.$date0
 
-# For a white background:
-# cp /nwprod/gempak/fix/coltbl.xwp.wbg coltbl.xwp
-cp $GEMFIX/coltbl.xwp.wbg coltbl.xwp
-
-# Missing value for precip set to -9999. so we can distinguish zero value 
-# areas (plotted in vanilla) from no data areas (white):
-# cp /nwprod/gempak/fix/wmogrib.tbl .
-cp $GEMFIX/wmogrib.tbl .
-
 # On the CCS, the files are compressed with *.Z.  On WCOSS, they are gzip'd 
 # into *.gz.  Both can be gunzip'd.  Rather than "cp file.Z ." or "cp file.gz",
 # we are now doing "cp file.* .", followed by "gunzip file" (zcat), since at the 
@@ -59,13 +48,14 @@ if [ -s toplot4.$date0 ]; then
     ac=`echo $item | awk -F"." '{print $2}' | cut -c1-2`
     region=`echo $item | awk -F"." '{print $3}'`
     ST4item=st4_${region}.$date.${ac}h
-    cp $COMIN/$RUN.$day/${ST4item}.grb2 > $ST4item/.
-    if [ $region = conus ]; then
-      ST4item=st4.$date.${ac}h
-    else
-      ST4item=st4_${region}.$date.${ac}h
-    fi
+
     mkdir $ST4item
+    # For a white background:
+    cp $GEMFIX/coltbl.xwp.wbg $ST4item/coltbl.xwp
+    # Missing value for precip set to -9999. so we can distinguish zero value 
+    # areas (plotted in vanilla) from no data areas (white):
+    cp $GEMFIX/g2varswmo2.tbl $ST4item/.
+
     cp $COMIN/$RUN.$day/${ST4item}.grb2 $ST4item/.
     if [ $? -eq 0 ]; then
       # Now make the plot.  Note that ST4item below is the subdir containing

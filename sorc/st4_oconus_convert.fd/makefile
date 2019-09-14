@@ -2,7 +2,7 @@ SHELL=		/bin/sh
 
 LIBS=           ${G2_LIB4} ${W3NCO_LIB4} ${W3EMC_LIB4} ${BACIO_LIB4} ${JASPER_LIB} ${PNG_LIB} ${Z_LIB}
 FC=             ifort
-FFLAGS=         -cpp 
+FFLAGS=         -FR -cpp 
 
 LDFLAGS=
 SRCS=		st4_oconus_convert.f grib2_wrt_g2func_hrap.f
