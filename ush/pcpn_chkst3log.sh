@@ -26,8 +26,8 @@
 #     ST4 run.  
 #  4. Sort the above list to produce a list of unique accumulation periods 
 #     with at list one RFC input.  If the yyyymmddhh on the list (the ending
-#     hour of the accumulation period is earlier than ${PDYm7}${cyc}, send an email
-#     to YL.
+#     hour of the accumulation period is earlier than ${PDYm7}${cyc}, send an 
+#     email to YL.
 # 
 
 set -x
@@ -222,7 +222,7 @@ do
     #   include those 6-hourlies with new incoming 6-hourly QPE, going back 
     #   42 hours, 
     # AK 6-hourlies are re-done whenever there are new incoming AK QPE06
-    # PR 6-hourly QPEs are not used
+    # PR 24-hour is from hourly QPEs, not from the 6h QPE.
     elif [ $acc = '06h' ]; then
       if [ $region = conus ]; then
         if [ $endtime -gt ${PDYm2}${cyc} ]; then 
@@ -250,6 +250,11 @@ $PDYm5$cyc.01h
 $PDYm3$cyc.01h
 $PDYm2$cyc.01h
 $PDYm1$cyc.01h
+EOF01h
+
+# Re-run PR hourly analysis for 7 days ago:
+cat >> todo4.pr.01h.$date <<EOF01h
+$PDYm7$cyc.01h
 EOF01h
 
 # At 15:33Z, re-run 1-hourly analyses for the 1h ending 13Z-14Z 
@@ -291,6 +296,11 @@ ${PDYm1}00.06h
 ${PDYm1}06.06h
 ${PDYm1}12.06h
 EOF06h
+
+# Re-run PR hourly analysis for 7 days ago:
+cat >> todo4.pr.01h.$date.presort <<EOF01h
+$PDYm7$cyc.01h
+EOF01h
 
   cat >> todo4.ak.06h.$date.presort <<EOF06h
 ${PDYm8}18.06h
