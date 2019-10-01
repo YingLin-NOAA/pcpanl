@@ -2,35 +2,40 @@
 #BSUB -J pcpanl
 #BSUB -P RTMA-T2O
 #BSUB -n 1
-#BSUB -o /gpfs/dell2/ptmp/Ying.Lin/cron.out/pcpanl.%J
-#BSUB -e /gpfs/dell2/ptmp/Ying.Lin/cron.out/pcpanl.%J
+#BSUB -o /ptmpp1/emc.rtmapara/Ying.Lin/cron.out/pcpanl.%J
+#BSUB -e /ptmpp1/emc.rtmapara/Ying.Lin/cron.out/pcpanl.%J
 #BSUB -W 00:58
-#BSUB -q "dev_shared"
+#BSUB -q "devonprod2_shared"
 #BSUB -R "rusage[mem=1500]"
 #BSUB -R affinity[core(1)]
 #BSUB -R "span[ptile=1]"
+#BSUB -a poe
 
+set -x
+
+export MP_EUILIB=us
+export MP_EUIDEVICE=sn_all
+export MP_MPILIB=mpich2
+export MP_STDOUTMODE=unordered
+export MP_LABELIO=yes
+export MP_INFOLEVEL=3
+
+. /usrx/local/Modules/3.2.9/init/ksh
 module purge
-module load EnvVars/1.0.2
-module load lsf/10.1
-module load ips/18.0.1.163
-module load impi/18.0.1
-module load CFP/2.0.1
-
-module load prod_util/1.1.2
-module load prod_envir/1.0.3
-module load grib_util/1.1.1
-
-module use -a /gpfs/dell1/nco/ops/nwprod/modulefiles/
-module load gempak/7.3.1
+module load prod_util
+module load prod_envir
+module load grib_util/v1.1.1
+module load lsf # for mpirun.lsf used in plotting 
+module load ibmpe/1.3.0.12 # for gempak
+module load gempak cfp
 
 # EXPORT list here
 export envir=userdev
 export RUN_ENVIR=dev 
 # RUN_ENVIR only appears once, in jobs/JPCPN_ANAL:
 #    if [ $RUN_ENVIR != nco ]; then
-export model_ver=v4.0.0
+export model_ver=v4.0.0_p2
 export pcpanl_ver=$model_ver
 export job=pcpanl
 
-/gpfs/dell2/emc/verification/noscrub/Ying.Lin/pcpanl/pcpanl.${model_ver}/ecf/dev/pcp_anl.ecf
+/meso/save/Ying.Lin/pcpanl/pcpanl.${model_ver}/ecf/dev/pcp_anl.ecf

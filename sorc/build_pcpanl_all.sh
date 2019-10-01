@@ -16,8 +16,7 @@ mkdir $BASE/logs
 export logs_dir=$BASE/logs
 
 set -x
-#Phase2 . /usrx/local/Modules/default/init/sh
-. /usrx/local/prod/lmod/lmod/init/ksh  #dell
+. /usrx/local/Modules/default/init/sh
 
 module purge
 module use ../modulefiles

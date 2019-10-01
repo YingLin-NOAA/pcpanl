@@ -6,7 +6,7 @@ BASE=$(pwd)
 export BASE
 
 set -x
-. /usrx/local/prod/lmod/lmod/init/ksh 
+. /usrx/local/Modules/default/init/sh
 module purge
 module use ../modulefiles
 module load PCPANL

@@ -1,10 +1,10 @@
 #!/bin/bash
 #BSUB -J pcpanl_send2rzdm
 #BSUB -P RTMA-T2O
-#BSUB -o /gpfs/dell2/ptmp/Ying.Lin/cron.out/send2rzdm_pcpanl.%J
-#BSUB -e /gpfs/dell2/ptmp/Ying.Lin/cron.out/send2rzdm_pcpanl.%J
+#BSUB -o /ptmpp1/Ying.Lin/cron.out/send2rzdm_pcpanl_p2.%J
+#BSUB -e /ptmpp1/Ying.Lin/cron.out/send2rzdm_pcpanl_p2.%J
 #BSUB -n 1
-#BSUB -q "dev_transfer"
+#BSUB -q "transfer"
 #BSUB -W 0:10
 #BSUB -R "rusage[mem=300]"
 #BSUB -R affinity[core(1)]
@@ -34,15 +34,16 @@ echo Actual output starts here:
 if [ $# -eq 1 ]; then
   date0=$1
 else                      
-  date0=`date -u +%Y%m%d%H`
   minute=`date +%M`
-  if [ $minute -lt 33 ]; then
-    date0=`$NDATE -1 $date0`
+  if [ $minute -gt 33 ]; then
+    date0=`date +%Y%m%d%H`
+  else
+    date0=`date +%Y%m%d%H -d "1 hour ago"`
   fi
 fi
 hr0=`echo $date0 | cut -c 9-10`
 
-COMOUT=/gpfs/dell2/ptmp/Ying.Lin/pcpanl
+COMOUT=/ptmpp1/emc.rtmapara/Ying.Lin/pcpanl
 RUN=pcpanl
 
 day0=`echo $date0 | cut -c 1-8`
@@ -56,7 +57,7 @@ do
   acc=`echo $item | cut -c 12-14`
   region=`echo $item | awk -F"." '{print $3}'`
   st4pfx=st4_${region}.${date}.$acc
-  RZDMDIR=/home/ftp/emc/mmb/precip/pcpanl.v4.0.0/pcpanl.$day
+  RZDMDIR=/home/ftp/emc/mmb/precip/pcpanl.v4.0.0_p2/pcpanl.$day
   ssh wd22yl@emcrzdm "mkdir -p $RZDMDIR"
   cd $COMOUT/${RUN}.$day
 

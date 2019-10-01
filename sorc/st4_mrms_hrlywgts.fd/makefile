@@ -3,7 +3,7 @@ LIBS  = ${WGRIB2LIB}
 MOD   = -I${WGRIB2INC}
 
 FC      =ifort
-FFLAGS   = -qopenmp
+FFLAGS   =
 
 SRCS = st4_mrms_hrlywgts.f90
 OBJS = st4_mrms_hrlywgts.o

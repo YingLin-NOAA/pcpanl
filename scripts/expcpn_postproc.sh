@@ -88,7 +88,7 @@ echo Here is the poescript for making plots:
 cat poescript
 echo 
 
-mpirun -l cfp poescript
+mpirun.lsf cfp poescript
 export err=$?; err_chk
 
 if [ -s $DATA/emailmsg.txt ]; then

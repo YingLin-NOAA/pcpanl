@@ -96,6 +96,10 @@ export COMOUT=${COMOUT:-$COMROOT/${NET}/${envir}}
 export COMURMA=${COMURMA:-${COMROOT}/urma/${envir}}/pcpurma
 
 # Starting 14 May 2019 on Dell: DCOMROOT=/gpfs/dell1/nco/ops/dcom
+# 2019/10/1: run on tide/gyre phase2.  DCOMROOT on Tide/gyre points to 
+#  /gpfs/t[g]p1/nco/ops/dcom.  We need to redefine DCOMROOT for MRMS and 
+#  RFC QPEs:
+export DCOMROOT=/gpfs/dell1/nco/ops/dcom
 export MRMSDIR=$DCOMROOT/prod/ldmdata/obs/upperair/mrms/conus/GaugeCorr_QPE
 
 # for RFC QPE (Stage IV) and for radar DPA: 
