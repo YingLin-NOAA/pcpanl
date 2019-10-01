@@ -33,7 +33,6 @@ export KEEPDATA=YES
 if [ "$envir" = userdev ]; then 
   USERHOME=/gpfs/dell2/emc/verification/noscrub/Ying.Lin
   export HOMEpcpanl=$USERHOME/pcpanl/pcpanl.$model_ver
-  export HOMErtma=$USERHOME/pcpanl/rtma.v2.8.0
   export HOMEurma=$USERHOME/pcpanl/urma.v2.8.0
   # outid is what prod uses to name the job output file, e.g.
   # nam_pcpn_anal_2033.o2467312  (outid.$o${pid}
