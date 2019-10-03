@@ -43,7 +43,8 @@ else
 fi
 hr0=`echo $date0 | cut -c 9-10`
 
-COMOUT=/ptmpp1/emc.rtmapara/Ying.Lin/pcpanl
+COMOUT=/ptmpp2/emc.rtmapara/com/pcpanl/para
+
 RUN=pcpanl
 
 day0=`echo $date0 | cut -c 1-8`

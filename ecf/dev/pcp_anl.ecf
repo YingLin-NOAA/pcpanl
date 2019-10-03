@@ -39,10 +39,10 @@ if [ "$envir" = userdev ]; then
   # nam_pcpn_anal_2033.o2467312  (outid.$o${pid}
   # below is my approximation to prod outid:
   export outid=pcpanl_`date +%H%M`
-  export DATAROOT=/stmpp1/emc.rtmapara/Ying.Lin/pcpanl
+  export DATAROOT=/stmpp2/emc.rtmapara/Ying.Lin/pcpanl
   # NWROOT, COMROOT, DCOMROOT deinfed by prod_envir. 
   # COMROOT: needed for setpdy,e.g. /com/date/t20z
-  export COMIN=/ptmpp1/emc.rtmapara/Ying.Lin/pcpanl
+  export COMIN=/ptmpp2/emc.rtmapara/com/pcpanl/para
   export COMOUT=$COMIN
   export COMURMA=$COMIN/pcpurma
 # COMINhourly: for METAR files (e.g. /com/hourly/prod/hourly.20170713/sfctbl.14)
