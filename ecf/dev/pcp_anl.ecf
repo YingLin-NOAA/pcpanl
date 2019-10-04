@@ -33,8 +33,7 @@ export KEEPDATA=YES
 if [ "$envir" = userdev ]; then 
   export USERHOME=/meso/save/Ying.Lin
   export HOMEpcpanl=$USERHOME/pcpanl/pcpanl.$model_ver
-  export HOMErtma=$USERHOME/pcpanl/rtma.v2.8.0
-  export HOMEurma=$USERHOME/pcpanl/urma.v2.8.0
+  export HOMEurma=/ensemble/save/Yan.Luo/pcpanl/urma.v2.8.0_p2
   # outid is what prod uses to name the job output file, e.g.
   # nam_pcpn_anal_2033.o2467312  (outid.$o${pid}
   # below is my approximation to prod outid:
@@ -44,7 +43,7 @@ if [ "$envir" = userdev ]; then
   # COMROOT: needed for setpdy,e.g. /com/date/t20z
   export COMIN=/ptmpp2/emc.rtmapara/com/pcpanl/para
   export COMOUT=$COMIN
-  export COMURMA=$COMIN/pcpurma
+  export COMURMA=/ptmpp2/emc.rtmapara/com/urma/para/pcpurma
 # COMINhourly: for METAR files (e.g. /com/hourly/prod/hourly.20170713/sfctbl.14)
 #   Sometimes this is slow being synch'd to devwcoss.  Have a cron job
 #   copy it over from prodwcoss at 32 min past the top of the hour:
