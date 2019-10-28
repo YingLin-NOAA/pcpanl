@@ -340,7 +340,7 @@ fi # $cyc -eq 12?
 #  12Z $daym1 might be incorporated into the AHPS water.weather.gov page
 #  before the next day's 12Z cycle run.  
 #
-if [ $cyc -eq 12 ]; then
+if [ $cyc -eq 18 ]; then
   cat >> todo4.conus.24h.$date <<EOF24h
 ${PDYm1}12.24h
 EOF24h
