@@ -4,17 +4,19 @@
 # '$2' ('01h','06h','24h'), for the hour ending '$1' (yyyymmddhh)
 #
 # If the accumulation period is '06h', we need to create the regional 
-#   6-hourlies for the central/eastern RFCs (150,154,155,157,158,160,161,162) 
+#   6-hourlies for the central/eastern RFCs and, starting in v4.0.0
+#   (spring 2020, CBRFC) (150,152,154,155,157,158,160,161,162) 
 #   from the hourlies (if an hourly QPE is missing for an RFC, use 6h QPE for
 #   that RFC).  
-#   For the four western RFCs (152,153,156,159), copy over the 6-hourlies from
+#   For the three western RFCs (153,156,159), copy over the 6-hourlies from
 #   dcom.  
 #
-# If the accumulation period is '24h', we use 24h QPEs from NWRFC and MBRFC
-# (156, 159; from 6h QPE if 24h not available), 
-# 6h QPEs from CBRFC and CNRFC (152,153), 
-# and hourly QPEs from the central/eastern RFCs
-#   (150,154,155,157,158,160,161,162) 
+# If the accumulation period is '24h', we use the following:
+#   24h QPEs from MBRFC (#156); from 6h QPE if MBRFC 24h QPE is not available. 
+#   6h QPEs from CNRFC and NWRFC (153,159), 
+#     (Note that NWRFC stopped sending 24h QPEs in Oct 2019)
+#   and hourly QPEs from the central/eastern RFCs, plus CBRFC:
+#     (150,152,154,155,157,158,160,161,162) 
 
 set -x 
 
@@ -91,7 +93,7 @@ if [ $ac = 01h ]; then
 elif [ $ac = 06h ]; then
   if [ ! -d sum6h ]; then mkdir sum6h; fi 
   cd sum6h
-  for rid in 150 154 155 157 158 160 161 162
+  for rid in 150 152 154 155 157 158 160 161 162
   do
     # flag to track if there are missing 1hr QPEs.  If so, copy over 6-hourly
     # QPE for that RFC, rather than accumulate from hourlies.  
@@ -130,7 +132,7 @@ EOF
     fi
   done
 
-  for rid in 152 153 156 159
+  for rid in 153 156 159
   do
     cp $DCOM/$day/wgrbbul/qpe/QPE.$rid.$date.06h .
   done
@@ -139,15 +141,15 @@ EOF
   cd $DATAST4
 
 elif [ $ac = 24h ]; then
-  # Sum 6h QPE from CB and CNRFC (152, 153).  If 24h QPE is not available from
-  # MB and NWRFC (156, 159) sum those from 6h QPEs too. 
-  rfc6to24list="152 153"
+  # Sum 6h QPE from CN and NWRFC (153, 159).  If 24h QPE is not available from
+  # MBRFC (156) sum that from 6h QPEs too. 
+  rfc6to24list="153 159"
   if [ ! -d sum24h ]; then mkdir sum24h; fi 
   cd sum24h
 
   # Copy over 24h QPE, if available.  If not, add to the list of RFCs that
   # contribute to 24h ST4 from 6h QPEs (for this run):
-  for rid in 156 159
+  for rid in 156
   do
     cp $DCOM/$day/wgrbbul/qpe/QPE.$rid.$date.24h .
     err=$?
@@ -192,7 +194,7 @@ EOF
     fi
   done
 
-  for rid in 150 154 155 157 158 160 161 162
+  for rid in 150 152 154 155 157 158 160 161 162
   do 
     # flag to track if there are missing 1hr QPEs.  If so, skip summing for
     # this RFC. 

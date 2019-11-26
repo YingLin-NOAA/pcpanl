@@ -8,12 +8,22 @@ set -x
 #   arg 1: yyyymmddhh 
 #   arg 2: debug (if in debug mode, do not delete the working directory)
 
+# 2019/11: note about the run cycle: since we're now triggering PCPANL at hh:55,
+#   if there is excessive wait time in the batch queue, the job might not start
+#   until after the top of the next hour.  So check for the current minute: 
+#   if it's less than 55, then the run cycle is for the previous hour. 
+
 export retro=N
 if [ $# -ge 1 ]; then
   export retro=Y
   export pdyhh=$1
 else
-  pdyhh=`date -u +%Y%m%d%H`
+  minute=`date +%M`
+  if [ $minute -lt 50 ]; then
+    pdyhh=`date +%Y%m%d%H -d "1 hour ago"`
+  else
+    pdyhh=`date +%Y%m%d%H`
+  fi
 fi
 export cyc=`echo $pdyhh | cut -c 9-10`
 
