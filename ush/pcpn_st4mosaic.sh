@@ -283,6 +283,8 @@ fi
 if test $SENDCOM = 'YES'
 then
   cp st4_conus.$date.$ac.grb2 $COMOUT/${RUN}.$day/.
+  $CNVGRIB -g21 st4_conus.$date.$ac.grb2 ST4.$date.$ac
+  gzip -c  ST4.$date.$ac > $COMOUT/${RUN}.$day/ST4.$date.$ac.gz
 fi
 
 if test $SENDDBN = 'YES'
