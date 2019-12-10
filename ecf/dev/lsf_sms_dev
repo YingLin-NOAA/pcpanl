@@ -1,14 +1,14 @@
 #!/bin/bash
 #BSUB -J pcpanl
 #BSUB -P RTMA-T2O
-#BSUB -n 1
+#BSUB -n 4
+#BSUB -R "span[ptile=4]"
 #BSUB -o /gpfs/dell2/ptmp/Ying.Lin/cron.out/pcpanl.%J
 #BSUB -e /gpfs/dell2/ptmp/Ying.Lin/cron.out/pcpanl.%J
 #BSUB -W 00:58
 #BSUB -q "dev_shared"
 #BSUB -R "rusage[mem=1500]"
 #BSUB -R affinity[core(1)]
-#BSUB -R "span[ptile=1]"
 
 module purge
 module load EnvVars/1.0.2
