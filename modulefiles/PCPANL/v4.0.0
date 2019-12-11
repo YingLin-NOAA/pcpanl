@@ -37,3 +37,6 @@ module load zlib/1.2.11
 # user library:
 setenv WGRIB2LIB /gpfs/dell2/emc/verification/noscrub/Ying.Lin/pcpanl/pcpanl.${ver}/lib/grib2/lib/libwgrib2.a
 setenv WGRIB2INC /gpfs/dell2/emc/verification/noscrub/Ying.Lin/pcpanl/pcpanl.${ver}/lib/grib2/lib
+# NCO: please replace the above with the following: 
+# setenv WGRIB2LIB /gpfs/dell1/nco/ops/nw${envir}/pcpanl.${ver}/lib/grib2/lib/libwgrib2.a
+# setenv WGRIB2INC /gpfs/dell1/nco/ops/nw${envir}/pcpanl.${ver}/lib/grib2/lib
