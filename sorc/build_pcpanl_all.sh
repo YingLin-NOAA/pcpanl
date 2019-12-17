@@ -80,8 +80,19 @@ cd $BASE
 
 if [ $BUILD_st4_oconus_convert = yes ] ; then
 
-echo " .... Building st4_oconus_grid_shift .... "
-./build_st4_oconus_convert.sh > $logs_dir/build_st4_oconus_grid_shift.log 2>&1
+echo " .... Building st4_oconus_convert .... "
+./build_st4_oconus_convert.sh > $logs_dir/build_st4_oconus_convert.log 2>&1
+
+fi
+
+cd $BASE
+
+##############################
+
+if [ $BUILD_st4_qpe6h_to_1h = yes ] ; then
+
+echo " .... Building st4_qpe_6h_to_1h .... "
+./build_st4_qpe6h_to_1h.sh > $logs_dir/build_st4_qpe6h_to_1h.log 2>&1
 
 fi
 
@@ -92,7 +103,8 @@ cd $BASE
 if [ $BUILD_grib2_lib = yes ] ; then
 
 echo " .... Building grib2/wgrib2 library .... "
-../lib/grib2/build_wgrib2.sh > $logs_dir/build_wgrib2_lib.log 2>&1
+cd ../lib/grib2
+build_wgrib2.sh > $logs_dir/build_wgrib2_lib.log 2>&1
 
 export BUILD_grib2_lib=yes
 
