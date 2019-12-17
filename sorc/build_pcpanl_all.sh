@@ -11,6 +11,7 @@ export BUILD_st4_mosaic=yes
 export BUILD_st4_mrms_hrlywgts=yes
 export BUILD_st4_oconus_convert=yes
 export BUILD_st4_qpe6h_to_1h=yes
+export BUILD_grib2_lib=yes
 
 mkdir $BASE/logs
 export logs_dir=$BASE/logs
@@ -88,10 +89,13 @@ cd $BASE
 
 ##############################
 
-if [ $BUILD_st4_qpe6h_to_1h = yes ] ; then
+if [ $BUILD_grib2_lib = yes ] ; then
 
-echo " .... Building st4_qpe6h_to_1h .... "
-./build_st4_qpe6h_to_1h.sh > $logs_dir/build_st4_qpe6h_to_1h.log 2>&1
+echo " .... Building grib2/wgrib2 library .... "
+../lib/grib2/build_wgrib2.sh > $logs_dir/build_wgrib2_lib.log 2>&1
+
+export BUILD_grib2_lib=yes
+
 
 fi
 
