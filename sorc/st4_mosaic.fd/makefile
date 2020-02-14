@@ -4,6 +4,11 @@ LIBS=           ${G2_LIB4} ${W3NCO_LIB4} ${W3EMC_LIB4} ${BACIO_LIB4} ${JASPER_LI
 FC=             ifort
 FFLAGS=         -FR -cpp 
 
+DEBUG_OPT ?= 1
+ifeq ($(DEBUG_OPT), 1)
+   FFLAGS +=  -g -traceback
+endif
+
 LDFLAGS=
 SRCS=		mosaic.f grib2_wrt_g2func_hrap.f 
 OBJS=		mosaic.o grib2_wrt_g2func_hrap.o

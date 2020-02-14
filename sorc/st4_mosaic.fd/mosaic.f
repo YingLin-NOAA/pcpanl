@@ -39,6 +39,11 @@
 !     as weights.
 !
 ! 2019/8/6 mosaic to GRIB2 output instead of GRIB1. 
+!
+! 2020/1/21: ConUS RFC QPEs all have nx/ny less than 500 (AK has the largest
+!   domain of (460,530), but that's not part of the ConUS mosaic program). 
+!   When reading in each ConUS RFC QPE, check to make sure neither nx nor ny
+!   in the input grib record exceeds 500, just in case.  
 ! 
 ! Input: 
 !        Unit      5: yyyymmddhh   (vdate*10)
@@ -148,9 +153,13 @@
            ' nx=',i3,' ny=', i3)
         if (iret.ne. 0) go to 100
 !
-        irfc = irfc + 1
         nx = kgds(2)
         ny = kgds(3)
+        if (nx.gt.500 .or. ny.gt.500) then
+          write(6,*) 'Skip QPE, wrong dimension: id,nx,ny=',id,nx,ny
+          go to 100
+        endif
+        irfc = irfc + 1
         alat1=float(kgds(4))/1000.
         alon1=float(kgds(5))/1000.
 !

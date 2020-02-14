@@ -21,6 +21,11 @@
 !       coverage; having a land-only mask for AK might imply more confidence
 !       in the AKQPE than warranted).
 !   2019-07-12: output to GRIB2 rather than GRIB1.  
+!   2020-01-21: check for QPE array dimensions, neither nx nor ny should be
+!     greater than 600 . AK QPE is currently 460x530.  Leave some room for 
+!     "growth" just in case, as RFCs occasionally do change their output grid.  
+!     This is to guard against rogue input (not actual QPEs) from blowing up 
+!     the lmax limit). 
 !
       parameter(lmax=1000000)
       integer jpds(25), jgds(22), kpds(25), kgds(22)
@@ -47,6 +52,11 @@
 !
       nx=kgds(2)
       ny=kgds(3)
+      if ( nx.gt.600 .or. ny.gt.600) then
+         write(6,*) 'Incorrect OConUS QPE array dimension, nx,ny=',nx,ny
+         stop
+      endif
+!
       alat1=float(kgds(4))/1000.
       alon1=float(kgds(5))/1000.
       alonv=kgds(7)/1000.           ! LOV grid orientation
