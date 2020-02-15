@@ -106,14 +106,6 @@ do
         echo $tmp | awk '{ print $NF }' >> checked.list.newqpe.westcoast.$date
       fi
     fi
-    # Check to see if the new QPE is for an accumulation period more
-    # than 7 days old.  If so, note this down in the 'alert' to be emailed.
-    # This is checked here, rather than in the next step (in the list of
-    # 'unique hours', so that we can have a record of the RFC that sent the
-    # data, as well as time of transmission.  
-    endtime=`echo $tmp | cut -c 26-35`
-    if [ $endtime -lt ${PDYm7}${cyc} ]; then echo $tmp >> update.alert; fi
-    # email to user at end of this script
   fi
 done
 
@@ -368,16 +360,6 @@ done
 
 # toplot4.$date is made in scripts/expcpn_stage4.sh, before calling
 # ush/nam_pcpn_st4mosaic.sh and nam_pcpn_st4oconus.sh
-
-if [ -s update.alert ]; then
-  if [ "$RUN_ENVIR" = "dev" ]; then
-    # Note: the standard mail command cannot send from WCOSS compute nodes
-    mail -s "RFC QPE alert" Ying.Lin@noaa.gov < update.alert
-  else
-    # Note: mail.py will send from compute nodes but only when run by a production account
-    mail.py -s "RFC QPE alert" Ying.Lin@noaa.gov < update.alert
-  fi
-fi
 
 cp list.* todo4.*.$date $COMOUT/${RUN}.${PDY}/
 
