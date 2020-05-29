@@ -33,4 +33,4 @@ export model_ver=v4.0.0
 export pcpanl_ver=$model_ver
 export job=pcpanl
 
-/gpfs/dell2/emc/verification/noscrub/Ying.Lin/pcpanl/pcpanl.${model_ver}/ecf/dev/pcp_anl.ecf
+/gpfs/dell2/emc/verification/noscrub/Ying.Lin/pcpanl/pcpanl.${model_ver}/ecf/dev/jpcpn_anal.ecf

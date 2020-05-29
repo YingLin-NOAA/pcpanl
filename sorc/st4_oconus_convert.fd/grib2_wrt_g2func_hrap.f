@@ -133,9 +133,13 @@
 !-- set up grid definition template 3.0
         igdstmpl=0
 
-        igdstmpl(1) = 0 !Earth assumed spherical with radius of 6,367,470.0m
-        igdstmpl(2) = 0
-        igdstmpl(3) = 0
+!       igdstmpl(1) = 0 !Earth assumed spherical with radius of 6,367,470.0m
+!       igdstmpl(1) = 8 !Earth assumed spherical with radius of 6,371,200.0m
+!       igdstmpl(2) = 0
+!       igdstmpl(3) = 0
+        igdstmpl(1) = 1 !Earth assumed spherical with radius specified by data producer
+        igdstmpl(2) = 0 !that is, no change here
+        igdstmpl(3) = 6371200
         igdstmpl(4) = 0
         igdstmpl(5) = 0
         igdstmpl(6) = 0
