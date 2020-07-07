@@ -2,6 +2,17 @@
 set -x
 v6date=$1
 
+# NWRFC and CNRFC provide only 6h QPEs.  For hourly mosaic to fully cover the
+# ConUS, we create "artificial" 1h QPEs by using 1h gauge-corrected MRMS as
+# weights to do a time-disaggregation of 6h QPE into hourly amounts.  
+
+# This script makes hourly weights for the 6h ending at $v6date, for NWRFC
+# and CNRFC (rid=159 and 153).  Input files needed are the gauge-corrected MRMS
+# for these six hours.  If any of the 6 MRMS files is missing (which is not 
+# uncommon), the script exists without making the weights and there will be no
+# hourly coverage for NWRFC and CNRFC for this 6h period.  
+
+# The hourly weights are on the CNRFC and NWRFC's grids: 
 cnrfcgrid="20 0 0 0 0 0 0 0 370 388 29200000 234351000 8 60000000 255000000 4762000 4762000 0 64"
 nwrfcgrid="20 0 0 0 0 0 0 0 302 357 38435000 236957000 8 60000000 255000000 4763000 4763000 0 64"
 
@@ -27,6 +38,9 @@ do
     exit
   fi
 
+  # MRMS uses "-3" to denote missing data.  That won't do when we calculate 
+  # weights.  We convert the raw MRMS file into a file with bitmap that shows
+  # areas with missing data:
   $WGRIB2 $mrms -rpn "dup:-3:!=:mask" -set_scaling -1 0 -set_bitmap 1 -set_grib_type c3 -grib_out mrms.$v1date
   # Copy it to the pcpurma.yyyymmdd for oconus fill:
   URMADIR=$COMURMA.$v1day
